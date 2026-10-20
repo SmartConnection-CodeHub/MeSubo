@@ -16,13 +16,14 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 @media (min-width:900px){html{scroll-snap-type:y proximity}}
-body{margin:0;font-family:Outfit,system-ui,sans-serif;color:var(--tinta);background:var(--espuma);line-height:1.5}
-section{min-height:100vh;padding:72px 16px 56px;scroll-snap-align:start;display:flex;align-items:center}
+body{margin:0;font-family:Outfit,system-ui,sans-serif;color:#fff;background:var(--noche);line-height:1.5}
+#road{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;display:block}
+section{min-height:100vh;padding:72px 16px 56px;scroll-snap-align:start;display:flex;align-items:center;background:linear-gradient(180deg,rgba(14,9,34,.62),rgba(14,9,34,.78))}
+section h1,section h2{text-shadow:0 2px 24px rgba(10,6,30,.6)}
 .in{max-width:1100px;margin:0 auto;width:100%}
-.dark{background:var(--noche);color:#fff}
-.hero{background:var(--grad);color:#fff;position:relative;overflow:hidden}
-.hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;background:radial-gradient(ellipse at 70% 120%,rgba(245,135,42,.55),transparent 60%)}
-.kicker{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--magenta)}
+.dark{background:linear-gradient(180deg,rgba(14,9,34,.72),rgba(14,9,34,.86));color:#fff}
+.hero{background:linear-gradient(90deg,rgba(14,9,34,.72) 0%,rgba(14,9,34,.35) 50%,rgba(14,9,34,0) 80%);color:#fff;position:relative;overflow:hidden}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#FF9CC8}
 .dark .kicker,.hero .kicker{color:var(--arena)}
 h1{font-size:clamp(44px,8vw,96px);line-height:.95;margin:10px 0 18px;letter-spacing:-2px}
 h1 span{color:var(--arena)}
@@ -31,8 +32,16 @@ h3{margin:0 0 8px;font-size:19px}
 p.lead{font-size:clamp(17px,2vw,21px);max-width:720px;opacity:.92}
 .grid{display:grid;gap:16px}
 .g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
-.card{background:#fff;border-radius:18px;padding:20px;box-shadow:0 6px 22px rgba(27,20,64,.08)}
-.dark .card{background:rgba(255,255,255,.07);box-shadow:none;border:1px solid rgba(255,255,255,.12)}
+.card{background:rgba(255,255,255,.96);color:var(--tinta);border-radius:18px;padding:20px;box-shadow:0 10px 30px rgba(5,3,20,.35)}
+.dark .card{background:rgba(255,255,255,.08);color:#fff;box-shadow:none;border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.card:hover{transform:translateY(-3px);transition:transform .25s}
+.voice{color:var(--tinta)}.dark .voice{color:#fff}
+.foot{color:#bfb6df!important}
+.card .foot{color:var(--gris)!important}
+.flow .step{color:var(--tinta)}.flow .step small{color:var(--gris)!important}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.vis{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.card:hover{transform:none}}
 .card small,.muted{color:var(--gris)}
 .dark .muted,.dark .card small{color:#c9c2e0}
 .tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;margin:0 6px 6px 0}
@@ -83,6 +92,7 @@ svg text{font-family:Outfit,sans-serif}
 </style>
 </head>
 <body>
+<canvas id="road" data-hz="0.52" aria-hidden="true"></canvas>
 <div class="bar" id="bar"></div>
 <div class="topnav"><a class="logo" href="#s1">Me<span>Subo</span></a><a class="btn demo" href="reservar.html">Probar la reserva →</a></div>
 <nav class="nav" id="nav"></nav>
@@ -333,6 +343,11 @@ secs.forEach((s,i)=>{const a=document.createElement("a");a.href="#"+s.id;a.title
 const dots=[...nav.children];
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const i=secs.indexOf(e.target);dots.forEach((d,j)=>d.classList.toggle("on",i===j))}}),{threshold:.5});
 secs.forEach(s=>io.observe(s));
+// aparición suave de bloques al entrar en pantalla
+const rv=[...document.querySelectorAll("section h2, section .card, section .voice, .agenda li, .flow .step, section table")];
+rv.forEach((el,i)=>{el.classList.add("reveal");el.style.transitionDelay=(i%4)*70+"ms"});
+const io2=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("vis");io2.unobserve(e.target)}}),{threshold:.12});
+rv.forEach(el=>io2.observe(el));
 addEventListener("scroll",()=>{const h=document.documentElement;document.getElementById("bar").style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+"%"});
 addEventListener("keydown",e=>{
   if(["INPUT","TEXTAREA"].includes(document.activeElement.tagName))return;
@@ -367,5 +382,6 @@ function draw(pe){
 }
 ["pax","pre","dia","op","pg","fx"].forEach(i=>$(i).addEventListener("input",upd));addEventListener("resize",upd);upd();
 </script>
+<script src="road.js"></script>
 </body>
 </html>
