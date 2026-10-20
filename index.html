@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MeSubo · Agenda con Diego</title>
+<meta name="description" content="MeSubo: commuter puerta a puerta Concón/Viña – Santiago. Agenda comercial y operacional, simulador financiero y demo de reserva.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noche:#1B1440; --violeta:#4B2A7B; --magenta:#D9468A; --atardecer:#F5872A;
+  --mar:#127C8A; --arena:#F6D743; --espuma:#F5F2FB; --tinta:#1E1A2E; --gris:#6B6680; --borde:#E3DEEE;
+  --grad: linear-gradient(135deg,#1B1440 0%,#4B2A7B 40%,#D9468A 78%,#F5872A 100%);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (min-width:900px){html{scroll-snap-type:y proximity}}
+body{margin:0;font-family:Outfit,system-ui,sans-serif;color:var(--tinta);background:var(--espuma);line-height:1.5}
+section{min-height:100vh;padding:72px 16px 56px;scroll-snap-align:start;display:flex;align-items:center}
+.in{max-width:1100px;margin:0 auto;width:100%}
+.dark{background:var(--noche);color:#fff}
+.hero{background:var(--grad);color:#fff;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;background:radial-gradient(ellipse at 70% 120%,rgba(245,135,42,.55),transparent 60%)}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--magenta)}
+.dark .kicker,.hero .kicker{color:var(--arena)}
+h1{font-size:clamp(44px,8vw,96px);line-height:.95;margin:10px 0 18px;letter-spacing:-2px}
+h1 span{color:var(--arena)}
+h2{font-size:clamp(28px,4.2vw,46px);line-height:1.08;margin:8px 0 20px;letter-spacing:-.5px}
+h3{margin:0 0 8px;font-size:19px}
+p.lead{font-size:clamp(17px,2vw,21px);max-width:720px;opacity:.92}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:#fff;border-radius:18px;padding:20px;box-shadow:0 6px 22px rgba(27,20,64,.08)}
+.dark .card{background:rgba(255,255,255,.07);box-shadow:none;border:1px solid rgba(255,255,255,.12)}
+.card small,.muted{color:var(--gris)}
+.dark .muted,.dark .card small{color:#c9c2e0}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;margin:0 6px 6px 0}
+.t-hip{background:#fff3d6;color:#8a5a00}.t-ok{background:#dcf5ea;color:#16794a}.t-risk{background:#fde3ec;color:#a0174e}.t-open{background:#e7e2f5;color:var(--violeta)}
+.btn{display:inline-block;background:var(--arena);color:var(--noche);font-weight:800;text-decoration:none;padding:14px 22px;border-radius:12px;border:0;font:inherit;font-weight:800;cursor:pointer}
+.btn.line{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.5)}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th,td{text-align:left;padding:10px 10px;border-bottom:1px solid var(--borde);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--gris)}
+.dark th{color:#c9c2e0}.dark td,.dark th{border-color:rgba(255,255,255,.14)}
+.tablewrap{overflow-x:auto}
+.big{font-size:clamp(30px,4vw,44px);font-weight:800;letter-spacing:-1px;line-height:1.05}
+.agenda li{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.14);display:grid;grid-template-columns:70px 1fr auto;gap:12px;align-items:baseline;list-style:none}
+.agenda{padding:0;margin:0}
+.agenda b{color:var(--arena)}
+.voice{border-left:4px solid var(--magenta);padding:12px 16px;background:#fff;border-radius:0 14px 14px 0;margin:14px 0;font-size:15px}
+.dark .voice{background:rgba(255,255,255,.06)}
+.voice b.who{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--magenta);margin-bottom:4px}
+/* nav */
+.nav{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;gap:8px}
+.nav a{width:10px;height:10px;border-radius:50%;background:rgba(140,130,170,.45);display:block}
+.nav a.on{background:var(--magenta);transform:scale(1.35)}
+.bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--magenta),var(--atardecer));z-index:11;width:0}
+.topnav{position:fixed;top:4px;left:0;right:0;z-index:9;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;pointer-events:none}
+.topnav .logo{font-weight:800;font-size:20px;pointer-events:auto;text-decoration:none;color:#fff;background:rgba(27,20,64,.7);padding:4px 12px;border-radius:99px;backdrop-filter:blur(6px)}
+.topnav .logo span{color:var(--arena)}
+.topnav .demo{pointer-events:auto;font-size:14px;padding:8px 14px}
+/* sim */
+.sim{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.ctl{margin-bottom:14px}
+.ctl label{display:flex;justify-content:space-between;font-size:14px;font-weight:600}
+.ctl input[type=range]{width:100%;accent-color:var(--magenta)}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kpi .card{padding:14px}
+.kpi .v{font-size:26px;font-weight:800}
+.pos{color:#16794a}.neg{color:#c0154d}
+.flow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.flow .step{flex:1;min-width:150px;background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:0 4px 14px rgba(27,20,64,.07)}
+.flow .arr{font-size:22px;color:var(--magenta)}
+svg text{font-family:Outfit,sans-serif}
+.foot{font-size:12px;color:var(--gris);margin-top:22px}
+@media (max-width:860px){
+  .g2,.g3,.g4,.sim{grid-template-columns:1fr}
+  .nav{display:none}
+  .agenda li{grid-template-columns:56px 1fr}
+  .agenda li span:last-child{grid-column:2}
+}
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<div class="topnav"><a class="logo" href="#s1">Me<span>Subo</span></a><a class="btn demo" href="reservar.html">Probar la reserva →</a></div>
+<nav class="nav" id="nav"></nav>
+
+<!-- 1 PORTADA -->
+<section class="hero" id="s1"><div class="in" style="position:relative;z-index:1">
+  <div class="kicker">Reunión de socios · Guillermo González × Diego Sanhueza · 20-10-2026</div>
+  <h1>Me<span>Subo</span></h1>
+  <p class="lead">El bus que te recoge cerca de tu casa en Concón o Viña y te deja en tu oficina en Santiago. Con reserva, asiento elegido y pago desde el celular.</p>
+  <p class="lead" style="font-size:16px;opacity:.8">Lo que hoy existe es un bus informal que va lleno, se coordina por WhatsApp y a veces deja a la gente tirada. Queremos ofrecer el mismo servicio, pero formal y confiable.</p>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+    <a class="btn" href="#s2">Ver agenda</a><a class="btn line" href="reservar.html">Demo de reserva</a>
+  </div>
+</div></section>
+
+<!-- 2 AGENDA -->
+<section class="dark" id="s2"><div class="in">
+  <div class="kicker">Agenda · 60 min</div>
+  <h2>Qué tenemos que decidir hoy</h2>
+  <ul class="agenda">
+    <li><b>5'</b><span>La oportunidad: qué vimos y qué no sabemos todavía</span><span class="tag t-open">Contexto</span></li>
+    <li><b>10'</b><span>El modelo: MeSubo (marca, app, clientes, cobro) y un operador de flota con tarifa fija</span><span class="tag t-open">Modelo</span></li>
+    <li><b>15'</b><span><b style="color:#fff">Agenda comercial:</b> precio, preventa, captación de los primeros 50 y convenios con empresas</span><span class="tag t-hip">Comercial</span></li>
+    <li><b>15'</b><span><b style="color:#fff">Agenda operacional:</b> los 5 proveedores, qué les pedimos y las cláusulas del contrato</span><span class="tag t-hip">Operación</span></li>
+    <li><b>10'</b><span>SpA, regulación e impuestos: lo que hay que preguntar a la Seremi, al abogado y al contador</span><span class="tag t-risk">Riesgo</span></li>
+    <li><b>5'</b><span>Números con el simulador y reparto de tareas para los próximos 30 días</span><span class="tag t-ok">Decisión</span></li>
+  </ul>
+</div></section>
+
+<!-- 3 OPORTUNIDAD -->
+<section id="s3"><div class="in">
+  <div class="kicker">La oportunidad</div>
+  <h2>Hay gente pagando 3 veces el pasaje formal<br>por no ir al terminal</h2>
+  <div class="grid g3">
+    <div class="card"><div class="big">$20.000</div><small>ida y vuelta que cobra hoy el bus informal ($10.000 por tramo)</small></div>
+    <div class="card"><div class="big">$3.000–6.500</div><small>pasaje formal Viña–Santiago, de terminal a terminal (Turbus, Cóndor, Pullman). Fuente: recorrido.cl</small></div>
+    <div class="card"><div class="big">~2 h</div><small>de viaje, 138 km. Turbus sale cada 15 min entre 06:30 y 22:30, pero no antes ni puerta a puerta</small></div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h3>Lo que sabemos</h3>
+      <span class="tag t-ok">Observado</span> El bus informal va casi siempre lleno (salvo en verano).<br>
+      <span class="tag t-ok">Observado</span> Los pasajeros son ejecutivos, gerentes y bancarios que viven en la costa.<br>
+      <span class="tag t-ok">RADAR</span> No encontramos un commuter formal con app y suscripción en esta ruta.</div>
+    <div class="card"><h3>Lo que NO sabemos</h3>
+      <span class="tag t-hip">Hipótesis</span> Cuánta demanda real hay. Hoy es evidencia anecdótica, no un estudio.<br>
+      <span class="tag t-hip">Hipótesis</span> Si pagarían $20.000 o más por un servicio confiable.<br>
+      <span class="tag t-risk">Ojo</span> Que no exista competencia formal puede ser una oportunidad o una señal de que los números no cierran.</div>
+  </div>
+</div></section>
+
+<!-- 4 SERVICIO / RUTA -->
+<section class="dark" id="s4"><div class="in">
+  <div class="kicker">El servicio · ruta preliminar</div>
+  <h2>De la costa a Las Condes, de lunes a viernes</h2>
+  <div class="card" style="padding:12px;overflow-x:auto">
+    <svg viewBox="0 0 1000 230" width="100%" style="min-width:680px" role="img" aria-label="Ruta preliminar de Concón a Manquehue">
+      <defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="#127C8A"/><stop offset=".5" stop-color="#D9468A"/><stop offset="1" stop-color="#F5872A"/></linearGradient></defs>
+      <path d="M40 120 C 180 40, 300 200, 450 120 S 750 60, 960 120" fill="none" stroke="url(#rg)" stroke-width="8" stroke-linecap="round"/>
+      <g font-size="14" fill="#fff">
+        <circle cx="40" cy="120" r="11" fill="#F6D743"/><text x="20" y="160">Concón</text><text x="20" y="178" fill="#c9c2e0" font-size="12">05:20</text>
+        <circle cx="140" cy="77" r="9" fill="#fff"/><text x="108" y="52">Reñaca</text><text x="112" y="34" fill="#c9c2e0" font-size="12">05:35</text>
+        <circle cx="235" cy="116" r="9" fill="#fff"/><text x="200" y="152">Viña · Libertad</text><text x="215" y="170" fill="#c9c2e0" font-size="12">05:50</text>
+        <circle cx="330" cy="150" r="9" fill="#fff"/><text x="300" y="190">Agua Santa</text><text x="315" y="208" fill="#c9c2e0" font-size="12">06:00</text>
+        <circle cx="450" cy="120" r="9" fill="#fff"/><text x="420" y="92">Curauma</text><text x="430" y="74" fill="#c9c2e0" font-size="12">06:15</text>
+        <text x="560" y="120" fill="#c9c2e0" font-size="13">— Ruta 68 · ~1 h —</text>
+        <circle cx="740" cy="90" r="9" fill="#fff"/><text x="690" y="62">Stgo Centro</text><text x="715" y="44" fill="#c9c2e0" font-size="12">07:25</text>
+        <circle cx="850" cy="98" r="9" fill="#fff"/><text x="800" y="140">Costanera / Tobalaba</text><text x="835" y="158" fill="#c9c2e0" font-size="12">07:45</text>
+        <circle cx="960" cy="120" r="11" fill="#F6D743"/><text x="905" y="190">Manquehue</text><text x="930" y="208" fill="#c9c2e0" font-size="12">08:00</text>
+      </g>
+    </svg>
+  </div>
+  <div class="grid g3" style="margin-top:16px">
+    <div class="card"><h3>Producto</h3>App para reservar asiento, pagar el día o el mes, recibir el e-ticket con QR y avisos de atraso por WhatsApp.</div>
+    <div class="card"><h3>Diferenciador</h3>Llega siempre. Si falla un bus, el operador manda uno de reemplazo por contrato. Eso es justo lo que no tiene el bus informal.</div>
+    <div class="card"><h3>Por validar</h3><span class="tag t-hip">Horarios</span><span class="tag t-hip">Paradas</span><span class="tag t-risk">Autorización Seremi</span><span class="tag t-hip">Feriados</span><span class="tag t-hip">Hora de regreso</span></div>
+  </div>
+</div></section>
+
+<!-- 5 MODELO -->
+<section id="s5"><div class="in">
+  <div class="kicker">Modelo de negocio</div>
+  <h2>Nosotros ponemos la marca y los clientes.<br>El operador pone el bus.</h2>
+  <div class="card" style="overflow-x:auto">
+    <svg viewBox="0 0 960 250" width="100%" style="min-width:640px" role="img" aria-label="Flujo pasajero, MeSubo y operador">
+      <g font-size="15" text-anchor="middle">
+        <rect x="20" y="70" width="230" height="110" rx="16" fill="#F5F2FB" stroke="#E3DEEE"/>
+        <text x="135" y="112" font-weight="800" fill="#1B1440">Pasajero</text><text x="135" y="136" fill="#6B6680" font-size="13">vive en la costa,</text><text x="135" y="154" fill="#6B6680" font-size="13">trabaja en Santiago</text>
+        <rect x="365" y="40" width="230" height="170" rx="16" fill="#1B1440"/>
+        <text x="480" y="80" font-weight="800" fill="#F6D743" font-size="20">MeSubo SpA</text>
+        <text x="480" y="108" fill="#fff" font-size="13">marca · app · reservas</text><text x="480" y="128" fill="#fff" font-size="13">cartera de clientes</text><text x="480" y="148" fill="#fff" font-size="13">cobro y atención</text><text x="480" y="178" fill="#c9c2e0" font-size="12">(lo que vende está por definir ⚠)</text>
+        <rect x="710" y="70" width="230" height="110" rx="16" fill="#127C8A"/>
+        <text x="825" y="108" font-weight="800" fill="#fff">Operador de flota</text><text x="825" y="132" fill="#fff" font-size="13">bus · conductor · operación</text><text x="825" y="152" fill="#fff" font-size="13">transportista inscrito RNSTP</text>
+        <path d="M250 110 H360" stroke="#D9468A" stroke-width="3" marker-end="url(#a)"/><text x="305" y="100" font-size="12" fill="#D9468A">paga pasaje</text>
+        <path d="M360 150 H250" stroke="#6B6680" stroke-width="2" marker-end="url(#a2)"/><text x="305" y="170" font-size="12" fill="#6B6680">e-ticket</text>
+        <path d="M595 110 H705" stroke="#D9468A" stroke-width="3" marker-end="url(#a)"/><text x="650" y="100" font-size="12" fill="#D9468A">tarifa fija/mes</text>
+        <path d="M705 150 H595" stroke="#6B6680" stroke-width="2" marker-end="url(#a2)"/><text x="650" y="170" font-size="12" fill="#6B6680">servicio + reemplazo</text>
+      </g>
+      <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#D9468A"/></marker><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6B6680"/></marker></defs>
+    </svg>
+  </div>
+  <div class="grid g3" style="margin-top:16px">
+    <div class="card"><span class="tag t-open">Estructura A</span><h3>Vendemos por cuenta del operador</h3>El operador figura como transportista y emite la boleta exenta. MeSubo cobra por la plataforma o la comisión, y eso probablemente lleva IVA. Es lo más limpio en lo regulatorio, pero choca con la idea de pagar una tarifa fija.</div>
+    <div class="card"><span class="tag t-open">Estructura B</span><h3>Vendemos a nombre propio y subcontratamos</h3>MeSubo contrata al pasajero y le paga una tarifa fija al operador. Así nos quedamos con todo el margen, pero frente al pasajero podríamos pasar a ser el transportista. <b>Esto hay que validarlo con el abogado y la Seremi.</b></div>
+    <div class="card"><span class="tag t-open">Estructura C</span><h3>Convenio con empresas</h3>Bancos u oficinas contratan asientos para su gente. Se acerca al régimen de "transporte de trabajadores". Sirve como canal complementario, no como el principal.</div>
+  </div>
+</div></section>
+
+<!-- 6 COMERCIAL -->
+<section class="dark" id="s6"><div class="in">
+  <div class="kicker">Agenda comercial</div>
+  <h2>Llenar un bus antes de firmar con un operador</h2>
+  <div class="grid g4">
+    <div class="card"><div class="big" style="color:var(--arena)">1</div><h3>Preventa con abono</h3><small>Una landing con formulario y un link de pago con abono reembolsable. La meta es conseguir 20 compromisos pagados antes de firmar.</small></div>
+    <div class="card"><div class="big" style="color:var(--arena)">2</div><h3>Captación (Claudia)</h3><small>Meta Ads segmentados por Concón, Reñaca y Viña a las 21:00, con el mensaje "nunca te deja tirado". También grupos de Facebook de viajes Viña–Santiago y conserjerías de edificios.</small></div>
+    <div class="card"><div class="big" style="color:var(--arena)">3</div><h3>Precio</h3><small>Hipótesis: $20.000 el día ida y vuelta y un pase mensual con 5% de descuento. Cobrar más que el informal se justifica con el asiento asegurado y el bus de reemplazo.</small></div>
+    <div class="card"><div class="big" style="color:var(--arena)">4</div><h3>Convenios con empresas</h3><small>Bancos y oficinas de Las Condes y Costanera que paguen el beneficio a sus empleados. Ayuda a bajar el churn de verano.</small></div>
+  </div>
+  <div class="tablewrap" style="margin-top:18px"><table>
+    <tr><th>Embudo · meta 30 días</th><th>Meta</th><th>Owner</th><th>Estado</th></tr>
+    <tr><td>Personas alcanzadas con Meta Ads en la costa</td><td>15.000</td><td>Claudia</td><td><span class="tag t-hip">por iniciar</span></td></tr>
+    <tr><td>Leads (formulario de interés)</td><td>200</td><td>Claudia</td><td><span class="tag t-hip">por iniciar</span></td></tr>
+    <tr><td>Preventas con abono</td><td>20 a 50</td><td>Guillermo / Diego</td><td><span class="tag t-hip">por iniciar</span></td></tr>
+    <tr><td>Empresas en conversación por convenio</td><td>3</td><td>Diego</td><td><span class="tag t-open">por asignar</span></td></tr>
+  </table></div>
+  <div class="voice"><b class="who">💰 Business Development</b>Recomiendo no prometer un precio público hasta tener la cotización del operador. En la preventa conviene decir "desde $20.000" y dejar fijo el abono.</div>
+</div></section>
+
+<!-- 7 OPERACIONAL -->
+<section id="s7"><div class="in">
+  <div class="kicker">Agenda operacional</div>
+  <h2>5 proveedores en conversación</h2>
+  <div class="tablewrap card"><table>
+    <tr><th>Proveedor</th><th>Qué sabemos (RADAR)</th><th>Fit</th><th>Estado</th></tr>
+    <tr><td><b>Buses Núñez</b></td><td>Más de 75 vehículos, más de 60 años, traslado de personal, GPS, Convenio Marco y FENABUS. busesnunez.cl</td><td><span class="tag t-ok">Alto</span></td><td>En conversación · sin cotización</td></tr>
+    <tr><td><b>TurisViña</b></td><td>Con base en Reñaca. Hace transporte corporativo y ejecutivo, tiene bus de 46 pasajeros y vans. Dice ser operador formal MTT. turisvina.cl</td><td><span class="tag t-ok">Alto</span></td><td>En conversación · sin cotización</td></tr>
+    <tr><td><b>Verschae</b></td><td>Más de 70 años. Hace giras y servicios corporativos. Tiene poca información pública.</td><td><span class="tag t-hip">Medio</span></td><td>Pidió ruta, horarios, RUT</td></tr>
+    <tr><td><b>Pullman</b></td><td>Es interurbano regular y compite en la ruta. Hay que confirmar si arrienda vía Pullman Tur.</td><td><span class="tag t-hip">Medio</span></td><td>En conversación</td></tr>
+    <tr><td><b>Janotour</b></td><td>No hay información pública.</td><td><span class="tag t-open">?</span></td><td>En conversación</td></tr>
+  </table></div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h3>Lo que nos piden (y hay que tener listo)</h3>
+      ✔ Ruta exacta y paradas · ✔ Horario de ida y regreso · ✔ Política de feriados · ✔ Duración del contrato · ✔ Condiciones de pago · ✔ Tipo de bus · ✔ Fecha de inicio · <b>✔ Razón social y RUT (de la SpA)</b></div>
+    <div class="card"><h3>Lo que les pedimos a ellos</h3>
+      Tarifa mensual desglosada (conductor, diésel, peajes, seguros, mantención) · <b>bus y conductor de reemplazo</b> · certificado de inscripción RNSTP del servicio, no solo del bus · revisión técnica · SOAP y seguro de pasajeros · multas por atraso y falla</div>
+  </div>
+  <div class="voice"><b class="who">🔍 Architect + ⚖️ Compliance</b>Pedirles a los 5 la cotización con el mismo formato, para poder compararlos en una tabla. Y dejar escrito en el contrato que <b>el operador responde por la autorización del recorrido</b>.</div>
+</div></section>
+
+<!-- 8 REGULACION / SPA -->
+<section class="dark" id="s8"><div class="in">
+  <div class="kicker">SpA · regulación · impuestos</div>
+  <h2>El riesgo más grande no es comercial,<br>es regulatorio</h2>
+  <div class="grid g3">
+    <div class="card"><span class="tag t-risk">Seremi de Transportes</span><h3>¿Esto es interurbano o privado?</h3>Vender asientos sueltos por app a personas de distintas empresas en una ruta fija podría exigir operar como <b>servicio público interurbano</b> (D.S. 212, RNSTP) y no como privado remunerado. Hay que preguntarle a la Seremi de Valparaíso por escrito, parada por parada.</div>
+    <div class="card"><span class="tag t-open">Contador</span><h3>IVA y documentos</h3><b>Corrección:</b> el transporte de pasajeros está <b>exento de IVA</b>, así que subir a $22.000 "por el IVA" no corresponde. La comisión o el servicio de plataforma sí podría llevar IVA. Hay que definir quién emite cada documento.</div>
+    <div class="card"><span class="tag t-open">Abogado</span><h3>Constitución de la SpA</h3>Socios: Guillermo y Diego (% por definir). Objeto social amplio. Giros a evaluar: 799000 (reservas), 631200 (portales web) y, si operamos el transporte, 492250 o 492220. Las pasarelas exigen inicio de actividades.</div>
+  </div>
+  <div class="tablewrap" style="margin-top:16px"><table>
+    <tr><th>Pregunta abierta</th><th>A quién</th><th>Bloquea</th></tr>
+    <tr><td>¿Puede el operador ser el autorizado mientras MeSubo vende y cobra?</td><td>Seremi + abogado</td><td>Lanzamiento</td></tr>
+    <tr><td>¿Se pueden autorizar las paradas propuestas o hay que rediseñarlas?</td><td>Seremi</td><td>Ruta</td></tr>
+    <tr><td>¿Qué documentos debe mostrar el operador para <i>este</i> servicio?</td><td>Seremi + abogado</td><td>Contrato</td></tr>
+    <tr><td>¿Qué giro, qué comprobante y cómo funciona el IVA para la SpA?</td><td>Contador</td><td>SpA y pasarela</td></tr>
+    <tr><td>¿Qué cláusulas protegen continuidad, seguridad y pasajeros?</td><td>Abogado</td><td>Contrato</td></tr>
+  </table></div>
+</div></section>
+
+<!-- 9 SIMULADOR -->
+<section id="s9"><div class="in">
+  <div class="kicker">Simulador · mueve los números</div>
+  <h2>¿Con cuántos pasajeros empatamos?</h2>
+  <div class="sim">
+    <div class="card">
+      <div class="ctl"><label>Pasajeros por día <b id="vPax"></b></label><input type="range" id="pax" min="5" max="45" value="30"></div>
+      <div class="ctl"><label>Precio ida y vuelta <b id="vPre"></b></label><input type="range" id="pre" min="12000" max="30000" step="500" value="20000"></div>
+      <div class="ctl"><label>Días vendidos al mes <b id="vDia"></b></label><input type="range" id="dia" min="15" max="22" value="20"></div>
+      <div class="ctl"><label>Tarifa mensual del operador ≈ <b id="vOp"></b></label><input type="range" id="op" min="3000000" max="10000000" step="100000" value="6000000"></div>
+      <div class="ctl"><label>Pasarela de pago % <b id="vPg"></b></label><input type="range" id="pg" min="0.7" max="3.5" step="0.1" value="2.9"></div>
+      <div class="ctl"><label>App, atención y marketing al mes ≈ <b id="vFx"></b></label><input type="range" id="fx" min="300000" max="3000000" step="50000" value="1200000"></div>
+      <p class="foot">⚠ Supuestos: la tarifa del operador se estimó en ≈$6M/mes ($270–300 mil por día por un bus dedicado de 45 asientos con conductor, diésel y peajes de la Ruta 68), porque ningún proveedor ha cotizado todavía. El diésel está a ≈$1.530/L y el peaje de bus de 2 ejes cuesta $4.800 por pasada (RADAR). Se reemplaza con la cotización real.</p>
+    </div>
+    <div>
+      <div class="kpi">
+        <div class="card"><small>Ingreso mensual</small><div class="v" id="kIng"></div></div>
+        <div class="card"><small>Costo mensual</small><div class="v" id="kCos"></div></div>
+        <div class="card"><small>Resultado antes de impuestos</small><div class="v" id="kRes"></div></div>
+        <div class="card"><small>Margen</small><div class="v" id="kMar"></div></div>
+        <div class="card" style="grid-column:1/-1"><small>Punto de equilibrio</small><div class="v" id="kPe"></div><small id="kPeTxt"></small></div>
+      </div>
+      <div class="card" style="margin-top:12px"><canvas id="ch" height="170" aria-label="Resultado mensual según ocupación"></canvas><small>Resultado mensual según pasajeros por día (la línea marca el empate)</small></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 10 DEMO -->
+<section class="dark" id="s10"><div class="in">
+  <div class="kicker">Demo · experiencia del pasajero</div>
+  <h2>Funciona igual que Turbus,<br>pero para ir a la oficina</h2>
+  <div class="flow">
+    <div class="step"><b>1 · Buscar</b><br><small class="muted">dónde subes y bajas, la fecha y el tramo</small></div><span class="arr">→</span>
+    <div class="step"><b>2 · Asiento</b><br><small class="muted">mapa del bus de 45 asientos</small></div><span class="arr">→</span>
+    <div class="step"><b>3 · Pago</b><br><small class="muted">diario o pase mensual, con pasarela</small></div><span class="arr">→</span>
+    <div class="step"><b>4 · E-ticket</b><br><small class="muted">QR y PDF descargable</small></div>
+  </div>
+  <p style="margin-top:24px"><a class="btn" href="reservar.html">Abrir el simulador de reserva →</a></p>
+  <p class="muted">Es una simulación: no cobra ni reserva. El e-ticket sigue la estructura de un pasaje real de Cóndor/Turbus (reserva, transacción, boleto, asiento, pasajero, condiciones y QR).</p>
+</div></section>
+
+<!-- 11 RIESGOS -->
+<section id="s11"><div class="in">
+  <div class="kicker">Riesgos y cómo los cubrimos</div>
+  <h2>Lo que puede matar el negocio</h2>
+  <div class="tablewrap card"><table>
+    <tr><th>Riesgo</th><th>Probabilidad</th><th>Impacto</th><th>Mitigación</th></tr>
+    <tr><td>La Seremi considera que es servicio interurbano sin autorización</td><td>Media</td><td><span class="tag t-risk">Crítico</span></td><td>Consulta escrita antes de vender y un operador inscrito que responda por contrato</td></tr>
+    <tr><td>Asientos vacíos con una tarifa fija que se paga igual</td><td>Alta</td><td><span class="tag t-risk">Alto</span></td><td>Preventa con abono, pase mensual y convenios. Partir con un bus y escalar</td></tr>
+    <tr><td>Verano y vacaciones (baja la demanda)</td><td>Alta</td><td><span class="tag t-hip">Medio</span></td><td>Contrato con meses flexibles o tarifa menor entre enero y febrero</td></tr>
+    <tr><td>El bus informal baja el precio</td><td>Media</td><td><span class="tag t-hip">Medio</span></td><td>Competir por confiabilidad y no por precio, con bus de reemplazo garantizado</td></tr>
+    <tr><td>Falla del bus o del operador</td><td>Media</td><td><span class="tag t-hip">Medio</span></td><td>Cláusula de reemplazo en 30 minutos o multa, más un segundo proveedor de respaldo</td></tr>
+  </table></div>
+  <p class="foot">Referencia internacional (RADAR): Zeelo, en el Reino Unido, es el caso más parecido (commuter con suscripción operado con transportistas). Swvl, en Egipto, es el caso de cautela: creció rápido y no fue rentable.</p>
+</div></section>
+
+<!-- 12 CEREBRO + PROXIMOS PASOS -->
+<section class="hero" id="s12"><div class="in" style="position:relative;z-index:1">
+  <div class="kicker">🧠 Cerebro · síntesis</div>
+  <h2>Primero validar, después construir</h2>
+  <div class="voice" style="color:var(--tinta)"><b class="who">🧠 Cerebro</b>La app no es lo que define si esto funciona. Lo que define el negocio son <b>la autorización y la ocupación</b>. Si el operador está inscrito y conseguimos 20 abonos pagados, lo demás se resuelve con ejecución. Si falta cualquiera de las dos, la app no lo salva.</div>
+  <div class="grid g3">
+    <div class="card" style="color:var(--tinta)"><span class="tag t-ok">Semana 1–2</span><h3>Formalizar</h3>Constituir la SpA (Guillermo y Diego) · iniciar actividades · consulta escrita a la Seremi · enviar el brief estándar a los 5 proveedores</div>
+    <div class="card" style="color:var(--tinta)"><span class="tag t-hip">Semana 3–4</span><h3>Validar demanda</h3>Landing de preventa · Meta Ads con Claudia · meta de 20 abonos · comparar las cotizaciones en una tabla</div>
+    <div class="card" style="color:var(--tinta)"><span class="tag t-open">Día 30–60</span><h3>Piloto</h3>Firmar con 1 operador (y tener otro de respaldo) · 1 bus · app v1 sobre esta demo · lanzamiento en marzo, cuando termina el verano</div>
+  </div>
+  <h3 style="margin-top:22px">Para decidir hoy con Diego</h3>
+  <ol style="font-size:17px">
+    <li>El % de cada socio y quién administra la SpA</li>
+    <li>Estructura A, B o C para la consulta legal</li>
+    <li>Presupuesto de validación (≈$500 mil en Ads más el abogado y el contador)</li>
+    <li>Quién lidera la parte operativa (proveedores y Seremi) y quién la comercial</li>
+  </ol>
+  <p class="foot" style="color:#f0e8ff">Elaborado con apoyo de IA (📡 RADAR, 🧠 Cerebro) y revisado por Smart Connection. Las cifras marcadas como hipótesis o ≈ no están validadas.</p>
+</div></section>
+
+<script>
+// navegación
+const secs=[...document.querySelectorAll("section")], nav=document.getElementById("nav");
+secs.forEach((s,i)=>{const a=document.createElement("a");a.href="#"+s.id;a.title="Sección "+(i+1);nav.appendChild(a)});
+const dots=[...nav.children];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const i=secs.indexOf(e.target);dots.forEach((d,j)=>d.classList.toggle("on",i===j))}}),{threshold:.5});
+secs.forEach(s=>io.observe(s));
+addEventListener("scroll",()=>{const h=document.documentElement;document.getElementById("bar").style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+"%"});
+addEventListener("keydown",e=>{
+  if(["INPUT","TEXTAREA"].includes(document.activeElement.tagName))return;
+  const cur=secs.findIndex(s=>s.getBoundingClientRect().top>-innerHeight/2);
+  if(e.key==="ArrowDown"||e.key==="PageDown"){e.preventDefault();secs[Math.min(cur+1,secs.length-1)].scrollIntoView({behavior:"smooth"})}
+  if(e.key==="ArrowUp"||e.key==="PageUp"){e.preventDefault();secs[Math.max(cur-1,0)].scrollIntoView({behavior:"smooth"})}
+});
+// simulador
+const $=id=>document.getElementById(id), clp=n=>(n<0?"−$":"$")+Math.abs(Math.round(n)).toLocaleString("es-CL");
+function calc(pax){const pre=+$("pre").value,dia=+$("dia").value,op=+$("op").value,pg=+$("pg").value/100,fx=+$("fx").value;
+  const ing=pax*pre*dia, cos=op+fx+ing*pg; return {ing,cos,res:ing-cos}}
+function upd(){
+  const pax=+$("pax").value, r=calc(pax);
+  $("vPax").textContent=pax;$("vPre").textContent=clp(+$("pre").value);$("vDia").textContent=$("dia").value;
+  $("vOp").textContent=clp(+$("op").value);$("vPg").textContent=$("pg").value+"%";$("vFx").textContent=clp(+$("fx").value);
+  $("kIng").textContent=clp(r.ing);$("kCos").textContent=clp(r.cos);
+  $("kRes").textContent=clp(r.res);$("kRes").className="v "+(r.res>=0?"pos":"neg");
+  $("kMar").textContent=r.ing?Math.round(r.res/r.ing*100)+"%":"–";$("kMar").className="v "+(r.res>=0?"pos":"neg");
+  const pre=+$("pre").value,dia=+$("dia").value,pg=+$("pg").value/100;
+  const pe=Math.ceil((+$("op").value+ +$("fx").value)/(pre*dia*(1-pg)));
+  $("kPe").textContent=pe>45?"No cierra con 1 bus":pe+" pasajeros/día";
+  $("kPeTxt").textContent=pe>45?"Hay que bajar el costo o subir el precio":`Equivale a ${Math.round(pe/45*100)}% de ocupación de un bus de 45 asientos`;
+  draw(pe);
+}
+function draw(pe){
+  const c=$("ch"),x=c.getContext("2d"),W=c.width=c.clientWidth*devicePixelRatio,H=c.height=170*devicePixelRatio;x.scale(devicePixelRatio,devicePixelRatio);
+  const w=W/devicePixelRatio,h=170,vals=[];for(let p=5;p<=45;p++)vals.push(calc(p).res);
+  const mx=Math.max(...vals.map(Math.abs)),y0=h/2,bw=w/vals.length;
+  x.clearRect(0,0,w,h);x.strokeStyle="#E3DEEE";x.beginPath();x.moveTo(0,y0);x.lineTo(w,y0);x.stroke();
+  vals.forEach((v,i)=>{const bh=v/mx*(h/2-8);x.fillStyle=i+5===+$("pax").value?"#1B1440":(v>=0?"#127C8A":"#D9468A");x.fillRect(i*bw+1,y0-Math.max(bh,0),bw-2,Math.abs(bh))});
+  if(pe<=45){const px=(pe-5)*bw;x.strokeStyle="#F5872A";x.setLineDash([4,4]);x.beginPath();x.moveTo(px,0);x.lineTo(px,h);x.stroke();x.setLineDash([]);x.fillStyle="#F5872A";x.font="12px Outfit";x.fillText("empate "+pe,px+4,14)}
+}
+["pax","pre","dia","op","pg","fx"].forEach(i=>$(i).addEventListener("input",upd));addEventListener("resize",upd);upd();
+</script>
+</body>
+</html>
