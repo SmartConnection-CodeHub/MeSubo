@@ -100,6 +100,28 @@ header.top .wrap{position:relative;z-index:1}
 .ok-msg{text-align:center;margin-bottom:16px}
 .ok-msg h2{margin:6px 0}
 .actions{display:flex;gap:10px;justify-content:center;margin:16px 0;flex-wrap:wrap}
+.tabs{display:flex;max-width:460px;margin:8px auto 16px;background:#e4dff0;border-radius:99px;padding:4px}
+.tabs button{flex:1;border:0;background:transparent;font:inherit;font-weight:700;font-size:14px;padding:10px;border-radius:99px;cursor:pointer;color:var(--gris)}
+.tabs button.on{background:var(--noche);color:#fff}
+.offstage{position:absolute!important;left:-10000px;top:0;width:900px}
+.pass{max-width:400px;margin:0 auto;border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 14px 40px rgba(27,20,64,.18);cursor:pointer;border:0;padding:0;font:inherit;text-align:left;width:100%;display:block;color:var(--tinta);transition:transform .2s}
+.pass:hover,.pass:focus-visible{transform:translateY(-3px)}
+.pass-top{background:var(--grad);color:#fff;padding:16px 18px}
+.pass-top .row{display:flex;justify-content:space-between;align-items:center}
+.pass-route{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-top:14px}
+.pass-route b{font-size:26px;letter-spacing:-.5px;display:block}
+.pass-route small{opacity:.85;font-size:12px}
+.pass-mid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px 18px;border-bottom:2px dashed var(--borde);position:relative}
+.pass-mid small{display:block;color:var(--gris);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.pass-mid b{font-size:17px}
+.pass-bot{display:flex;align-items:center;gap:14px;padding:14px 18px}
+.pass-bot .mini{width:64px;height:64px;flex:none}
+.pass-bot .mini img,.pass-bot .mini canvas{width:64px!important;height:64px!important}
+.tap{font-weight:700;color:var(--magenta)}
+.qrbox{max-width:380px}
+.qrbig{display:flex;justify-content:center;padding:14px;background:#fff;border:2px solid var(--borde);border-radius:16px;margin:0 auto 12px;width:max-content}
+.qrinfo{font-size:14px;line-height:1.6;margin-bottom:6px}
+@media print{.offstage{position:static!important;width:auto}}
 @media (max-width:820px){
   .search{grid-template-columns:1fr 1fr}
   .search .btn{grid-column:1/-1}
@@ -214,7 +236,12 @@ header.top .wrap{position:relative;z-index:1}
       <button class="btn ghost" onclick="location.reload()">Nueva reserva</button>
     </div>
     <p class="note" id="pdfEstado" style="text-align:center">Generando PDF…</p>
-    <div class="ticket card" id="ticket"></div>
+    <div class="tabs no-print" role="tablist">
+      <button class="on" data-v="pase" role="tab" aria-selected="true">📱 Pase móvil (QR)</button>
+      <button data-v="pdf" role="tab" aria-selected="false">📄 Vista PDF</button>
+    </div>
+    <div id="pase" class="no-print"></div>
+    <div class="ticket card offstage" id="ticket"></div>
   </section>
 </main>
 
@@ -224,6 +251,15 @@ header.top .wrap{position:relative;z-index:1}
     <span style="display:flex;gap:8px"><a class="btn dark" id="pdfTab" target="_blank" rel="noopener" style="text-decoration:none;padding:8px 12px;font-size:14px">Abrir en pestaña</a><button class="btn ghost" id="pdfClose" style="padding:8px 12px;font-size:14px">✕ Cerrar</button></span>
   </div>
   <iframe id="pdfFrame" title="E-ticket PDF" style="flex:1;width:100%;border:1px solid var(--borde);border-radius:10px"></iframe>
+</div></div>
+
+<div class="gateway" id="qrModal" role="dialog" aria-modal="true" aria-label="Código QR para abordar"><div class="gwbox qrbox">
+  <div class="tk-logo" style="font-size:24px">Me<span>Subo</span></div>
+  <p style="margin:4px 0 10px;font-weight:600">Muestra este código al conductor</p>
+  <div id="qrBig" class="qrbig"></div>
+  <div id="qrInfo" class="qrinfo"></div>
+  <p class="note">☀️ Sube el brillo de la pantalla · Simulación, sin validez</p>
+  <button class="btn dark" id="qrClose" style="width:100%">Listo</button>
 </div></div>
 
 <div class="gateway" id="gw"><div class="gwbox">
@@ -375,16 +411,41 @@ function ticket(){
     <div class="qr" id="qr"></div>
   </div>
   <div class="tk-int"><b>USO INTERNO</b><br>${o.n} → ${de.n} · ${fechaTxt()} · Asiento ${asientos} · ${nom} · ${rut} · Total ${clp(total())}</div>`;
-  if(window.QRCode) new QRCode($("#qr"),{text:`MESUBO|${res}|${fechaTxt()}|${asientos}|${rut}`,width:110,height:110});
+  const qrTxt=`MESUBO|${res}|${fechaTxt()}|${asientos}|${rut}`;
+  if(window.QRCode) new QRCode($("#qr"),{text:qrTxt,width:110,height:110});
+  // pase móvil clickeable
+  const subida=tr!=="v"?addMin(o.h,b.salida):addMin(de.hv,b.salida);
+  const corto=s=>s.split("·").pop().trim();
+  $("#pase").innerHTML=`<button class="pass" id="passBtn" aria-label="Mostrar código QR para abordar">
+    <div class="pass-top"><div class="row"><b style="font-size:20px">Me<span style="color:var(--arena)">Subo</span></b><small>${fechaTxt()}</small></div>
+      <div class="pass-route"><div><small>Sube</small><b>${corto(tr==="v"?de.n:o.n)}</b><small>${subida}</small></div><div style="font-size:22px">🚌</div>
+      <div style="text-align:right"><small>Baja</small><b>${corto(tr==="v"?o.n:de.n)}</b><small>${tr==="v"?addMin(o.hv,b.salida):addMin(de.h,b.salida)}</small></div></div></div>
+    <div class="pass-mid"><div><small>Asiento</small><b>${asientos}</b></div><div><small>Tramo</small><b>${{iv:"Ida+vuelta",i:"Ida",v:"Vuelta"}[tr]}</b></div><div><small>Reserva</small><b style="font-size:13px">${res}</b></div></div>
+    <div class="pass-bot"><div class="mini" id="qrMini"></div><div><b>${nom}</b><br><small style="color:var(--gris)">${rut}</small><br><span class="tap">👆 Toca para mostrar tu QR</span></div></div>
+  </button>`;
+  if(window.QRCode){new QRCode($("#qrMini"),{text:qrTxt,width:128,height:128});
+    $("#qrBig").innerHTML="";new QRCode($("#qrBig"),{text:qrTxt,width:240,height:240,correctLevel:QRCode.CorrectLevel.M})}
+  $("#qrInfo").innerHTML=`<b>${nom}</b> · Asiento <b>${asientos}</b><br>${corto(o.n)} → ${corto(de.n)} · ${fechaTxt()} · ${subida}<br><small>Reserva ${res}</small>`;
+  $("#passBtn").onclick=()=>$("#qrModal").classList.add("on");
+  showTab("pase");
   setTimeout(makePdf,300);
 }
+function showTab(v){
+  document.querySelectorAll(".tabs button").forEach(b=>{const on=b.dataset.v===v;b.classList.toggle("on",on);b.setAttribute("aria-selected",on)});
+  $("#pase").style.display=v==="pase"?"":"none";
+  $("#ticket").classList.toggle("offstage",v!=="pdf");
+}
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>showTab(b.dataset.v));
+$("#qrClose").onclick=()=>$("#qrModal").classList.remove("on");
+$("#qrModal").addEventListener("click",e=>{if(e.target.id==="qrModal")$("#qrModal").classList.remove("on")});
+addEventListener("keydown",e=>{if(e.key==="Escape")$("#qrModal").classList.remove("on")});
 // PDF real generado en el navegador desde el e-ticket (html2canvas + jsPDF)
 let pdfUrl=null;
 async function makePdf(){
   try{
     // siempre en formato escritorio (ancho carta), aunque se genere desde el celular
     const cvs=await html2canvas($("#ticket"),{scale:2,backgroundColor:"#ffffff",useCORS:true,windowWidth:1100,
-      onclone:d=>{const t=d.getElementById("ticket");t.style.width="860px";t.style.maxWidth="860px";t.style.boxShadow="none"}});
+      onclone:d=>{const t=d.getElementById("ticket");t.classList.remove("offstage");t.style.width="860px";t.style.maxWidth="860px";t.style.boxShadow="none"}});
     const pdf=new jspdf.jsPDF({unit:"mm",format:"letter"});
     const pw=pdf.internal.pageSize.getWidth()-20, ph=cvs.height*pw/cvs.width;
     pdf.addImage(cvs.toDataURL("image/jpeg",.92),"JPEG",10,10,pw,Math.min(ph,pdf.internal.pageSize.getHeight()-20));
