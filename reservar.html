@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{
   --noche:#1B1440; --violeta:#4B2A7B; --magenta:#D9468A; --atardecer:#F5872A;
@@ -168,10 +170,10 @@ header.top .wrap{position:relative;z-index:1}
       <div class="card">
         <h3 style="margin-top:0">Datos del pasajero</h3>
         <div class="form-grid">
-          <div><label for="nom">Nombre y apellido</label><input id="nom" placeholder="Ej: Camila Rojas" autocomplete="name"></div>
-          <div><label for="rut">RUT / Pasaporte</label><input id="rut" placeholder="12.345.678-5"></div>
-          <div><label for="mail">Correo (aquí llega tu e-ticket)</label><input id="mail" type="email" placeholder="camila@empresa.cl" autocomplete="email"></div>
-          <div><label for="fono">Celular</label><input id="fono" placeholder="+56 9 1234 5678" autocomplete="tel"></div>
+          <div><label for="nom">Nombre y apellido</label><input id="nom" value="Camila Rojas" placeholder="Ej: Camila Rojas" autocomplete="name"></div>
+          <div><label for="rut">RUT / Pasaporte</label><input id="rut" value="12.345.678-5" placeholder="12.345.678-5"></div>
+          <div><label for="mail">Correo (aquí llega tu e-ticket)</label><input id="mail" type="email" value="camila.rojas@empresa.cl" placeholder="camila@empresa.cl" autocomplete="email"></div>
+          <div><label for="fono">Celular</label><input id="fono" value="+56 9 1234 5678" placeholder="+56 9 1234 5678" autocomplete="tel"></div>
           <div><label for="plan">Plan</label>
             <select id="plan"><option value="dia">Diario</option><option value="mes">Pase mensual (20 días, −5%)</option></select></div>
           <div><label for="emp">Empresa donde trabajas (opcional)</label><input id="emp" placeholder="Para convenios corporativos"></div>
@@ -182,11 +184,12 @@ header.top .wrap{position:relative;z-index:1}
           <div class="payopt" data-p="Transferencia">🏦 Transferencia</div>
           <div class="payopt" data-p="Billetera digital">📱 Billetera digital</div>
         </div>
-        <label style="font-size:13px;display:flex;gap:8px;align-items:flex-start"><input type="checkbox" id="acepto"> Acepto las condiciones del servicio y la política de anulación (simulación).</label>
+        <label style="font-size:13px;display:flex;gap:8px;align-items:flex-start"><input type="checkbox" id="acepto" checked> Acepto las condiciones del servicio y la política de anulación (simulación).</label>
         <div class="seatfoot">
           <button class="btn ghost" id="volver1">← Cambiar asiento</button>
-          <button class="btn dark" id="pagar" disabled>PAGAR</button>
+          <button class="btn dark" id="pagar">✔ OK · PAGAR</button>
         </div>
+        <p class="note">Demo: los datos vienen precargados. Puedes cambiarlos o dejar campos vacíos; el pago simulado se aprueba igual y se completan con datos de prueba.</p>
         <p class="note">En producción el pago lo procesa una pasarela certificada (por elegir: Webpay, Mercado Pago, Flow u otra). MeSubo no guarda datos de tarjeta.</p>
       </div>
       <aside class="card summary">
@@ -206,12 +209,22 @@ header.top .wrap{position:relative;z-index:1}
       <p>Te enviamos el e-ticket a <b id="okMail"></b> (simulado).</p>
     </div>
     <div class="actions">
-      <button class="btn dark" onclick="window.print()">⬇ Descargar PDF</button>
+      <button class="btn" id="verPdf" disabled>👁 Visualizar PDF</button>
+      <button class="btn dark" id="bajarPdf" disabled>⬇ Descargar PDF</button>
       <button class="btn ghost" onclick="location.reload()">Nueva reserva</button>
     </div>
+    <p class="note" id="pdfEstado" style="text-align:center">Generando PDF…</p>
     <div class="ticket card" id="ticket"></div>
   </section>
 </main>
+
+<div class="gateway" id="pdfModal" role="dialog" aria-modal="true" aria-label="Vista previa del e-ticket PDF"><div class="gwbox" style="max-width:900px;height:90vh;display:flex;flex-direction:column;padding:14px;text-align:left">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px">
+    <b>E-ticket MeSubo · PDF (simulación)</b>
+    <span style="display:flex;gap:8px"><a class="btn dark" id="pdfTab" target="_blank" rel="noopener" style="text-decoration:none;padding:8px 12px;font-size:14px">Abrir en pestaña</a><button class="btn ghost" id="pdfClose" style="padding:8px 12px;font-size:14px">✕ Cerrar</button></span>
+  </div>
+  <iframe id="pdfFrame" title="E-ticket PDF" style="flex:1;width:100%;border:1px solid var(--borde);border-radius:10px"></iframe>
+</div></div>
 
 <div class="gateway" id="gw"><div class="gwbox">
   <div style="font-weight:800;font-size:18px">Pasarela de pago (simulada)</div>
@@ -313,9 +326,9 @@ function go(n){
   if(n===2)resumen();
   window.scrollTo({top:0,behavior:"smooth"});
 }
-function validar(){$("#pagar").disabled=!($("#nom").value.trim().length>2&&$("#rut").value.trim().length>6&&/\S+@\S+\.\S+/.test($("#mail").value)&&$("#acepto").checked)}
-["#nom","#rut","#mail","#acepto"].forEach(s=>$(s).addEventListener("input",validar));
-$("#acepto").addEventListener("change",validar);
+// demo: siempre se aprueba; los campos vacíos se completan con datos de prueba
+const DEMO={nom:"Camila Rojas",rut:"12.345.678-5",mail:"camila.rojas@empresa.cl"};
+const val=id=>$("#"+id).value.trim()||DEMO[id];
 $("#plan").onchange=resumen;
 document.querySelectorAll(".payopt").forEach(p=>p.onclick=()=>{document.querySelectorAll(".payopt").forEach(x=>x.classList.remove("on"));p.classList.add("on");st.pay=p.dataset.p});
 $("#volver1").onclick=()=>go(1);
@@ -331,8 +344,9 @@ function ticket(){
   const o=PARADAS_SUBIDA.find(p=>p.id===$("#orig").value), de=PARADAS_BAJADA.find(p=>p.id===$("#dest").value), tr=$("#tramo").value, b=BUSES[st.trip];
   const res="MS"+Date.now().toString(36).toUpperCase().slice(-8), trx=String(Math.floor(Math.random()*9e10)+1e10), bol=String(Math.floor(Math.random()*9e9)+1e9);
   const asientos=st.seats.sort((a,b)=>a-b).join(", ");
-  const nom=$("#nom").value.trim(), rut=$("#rut").value.trim();
-  $("#okMail").textContent=$("#mail").value;
+  const nom=val("nom"), rut=val("rut");
+  $("#okMail").textContent=val("mail");
+  st.res=res;
   $("#ticket").innerHTML=`
   <div class="tk-head"><div class="tk-logo">Me<span>Subo</span></div><small>SIMULACIÓN · documento sin validez</small></div>
   <p style="font-size:13px;font-weight:700;margin:0 0 12px">📱 Para subir al bus muestra este e-ticket (QR) al conductor. Es el único pasaje necesario.</p>
@@ -362,7 +376,30 @@ function ticket(){
   </div>
   <div class="tk-int"><b>USO INTERNO</b><br>${o.n} → ${de.n} · ${fechaTxt()} · Asiento ${asientos} · ${nom} · ${rut} · Total ${clp(total())}</div>`;
   if(window.QRCode) new QRCode($("#qr"),{text:`MESUBO|${res}|${fechaTxt()}|${asientos}|${rut}`,width:110,height:110});
+  setTimeout(makePdf,300);
 }
+// PDF real generado en el navegador desde el e-ticket (html2canvas + jsPDF)
+let pdfUrl=null;
+async function makePdf(){
+  try{
+    // siempre en formato escritorio (ancho carta), aunque se genere desde el celular
+    const cvs=await html2canvas($("#ticket"),{scale:2,backgroundColor:"#ffffff",useCORS:true,windowWidth:1100,
+      onclone:d=>{const t=d.getElementById("ticket");t.style.width="860px";t.style.maxWidth="860px";t.style.boxShadow="none"}});
+    const pdf=new jspdf.jsPDF({unit:"mm",format:"letter"});
+    const pw=pdf.internal.pageSize.getWidth()-20, ph=cvs.height*pw/cvs.width;
+    pdf.addImage(cvs.toDataURL("image/jpeg",.92),"JPEG",10,10,pw,Math.min(ph,pdf.internal.pageSize.getHeight()-20));
+    pdf.setProperties({title:`MeSubo e-ticket ${st.res} (simulación)`});
+    if(pdfUrl)URL.revokeObjectURL(pdfUrl);
+    pdfUrl=URL.createObjectURL(pdf.output("blob"));
+    $("#verPdf").disabled=$("#bajarPdf").disabled=false;
+    $("#pdfEstado").textContent="PDF listo · simulación, sin validez como pasaje.";
+  }catch(e){$("#pdfEstado").textContent="No se pudo generar el PDF; usa Cmd/Ctrl+P → Guardar como PDF.";$("#bajarPdf").disabled=false;$("#bajarPdf").onclick=()=>print()}
+}
+$("#verPdf").onclick=()=>{$("#pdfFrame").src=pdfUrl;$("#pdfTab").href=pdfUrl;$("#pdfModal").classList.add("on")};
+$("#pdfClose").onclick=()=>{$("#pdfModal").classList.remove("on")};
+$("#pdfModal").onclick=e=>{if(e.target.id==="pdfModal")$("#pdfModal").classList.remove("on")};
+addEventListener("keydown",e=>{if(e.key==="Escape")$("#pdfModal").classList.remove("on")});
+$("#bajarPdf").onclick=()=>{const a=document.createElement("a");a.href=pdfUrl;a.download=`MeSubo-eticket-${st.res}.pdf`;a.click()};
 render();
 </script>
 <script src="road.js"></script>
