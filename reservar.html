@@ -44,6 +44,7 @@ header.top .wrap{position:relative;z-index:1}
 .steps div.done{background:var(--violeta);color:#fff}
 .panel{display:none}.panel.on{display:block}
 .layout{display:grid;grid-template-columns:260px 1fr;gap:18px}
+.layout>*{min-width:0}
 .card{background:var(--card);border-radius:var(--radio);box-shadow:0 4px 18px rgba(27,20,64,.08);padding:18px}
 .filters h3{margin:0 0 12px;font-size:16px}
 .filters p{margin:6px 0;font-size:14px;color:var(--gris)}
@@ -125,7 +126,8 @@ header.top .wrap{position:relative;z-index:1}
 @media (max-width:820px){
   .search{grid-template-columns:1fr 1fr}
   .search .btn{grid-column:1/-1}
-  .layout{grid-template-columns:1fr}
+  .layout{grid-template-columns:1fr!important}
+  #p1 .filters{order:2}
   .trip{grid-template-columns:1fr 1fr}
   .form-grid,.tk-grid,.tk-row,.paygrid{grid-template-columns:1fr}
   .tk-row3{grid-template-columns:1fr 1fr}
@@ -311,12 +313,18 @@ function render(){
         <div><div class="op">Me<span style="color:var(--magenta)">Subo</span> ${i===0?"Madrugador":"Temprano"}</div><small>${b.op}</small></div>
         <div><small>Ida</small><br><b>${sub}</b> → <b>${baj}</b>${tr!=="i"?`<br><small>Vuelta</small><br><b>${vs}</b> → <b>${vb}</b>`:""}</div>
         <div><small>${b.tipo}</small><br><small>${libres<6?"¡Últimos asientos!":libres+" disponibles"}</small></div>
-        <div style="text-align:right"><small>Desde</small><div class="price">${clp(PRECIO[tr])}</div><button class="btn" data-i="${i}" onclick="openSeats(${i})">ELEGIR ASIENTO</button></div>
+        <div style="text-align:right"><small>Desde</small><div class="price">${clp(PRECIO[tr])}</div><button class="btn" data-i="${i}" onclick="auto=false;openSeats(${i})">ELEGIR ASIENTO</button></div>
         <div class="meta"><span>⏱ ~2 h 05 min</span><span>🔌 USB</span><span>📶 Wi-Fi</span><span>❄️ A/C</span><span>🛡 Seguro obligatorio</span></div>
       </div>
       <div class="seatbox" id="sb${i}"></div>
     </div>`}).join("");
+  // demo: primer bus abierto con asiento ya elegido y botón rápido
+  $("#trips").insertAdjacentHTML("afterbegin",`<div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;background:#fdf0f6">
+    <span><b>⚡ Demo con datos listos:</b> ruta, asiento y pasajero ya están cargados.</span>
+    <button class="btn dark" onclick="demoRapida()">Ir directo al e-ticket →</button></div>`);
+  auto=true;openSeats(0);
 }
+function demoRapida(){if(!st.seats.length)openSeats(0);go(2);$("#pagar").click()}
 function openSeats(i){
   document.querySelectorAll(".seatbox").forEach(s=>{s.classList.remove("on");s.innerHTML=""});
   st.seats=[]; st.trip=i;
@@ -346,8 +354,12 @@ function openSeats(i){
     $("#cont").textContent="CONTINUAR: "+clp(PRECIO[$("#tramo").value]*st.seats.length);
   });
   $("#cont").onclick=()=>go(2);
-  box.scrollIntoView({behavior:"smooth",block:"nearest"});
+  // demo: deja un asiento disponible ya elegido (ventana, cerca de adelante)
+  const pre=[...box.querySelectorAll(".seat.av")].find(s=>[0,1].includes(+s.dataset.s%4))||box.querySelector(".seat.av");
+  if(pre)pre.click();
+  if(!auto)box.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
+let auto=true;
 function total(){const base=PRECIO[$("#tramo").value]*st.seats.length;return $("#plan").value==="mes"?base*20*0.95:base}
 function resumen(){
   const o=PARADAS_SUBIDA.find(p=>p.id===$("#orig").value), de=PARADAS_BAJADA.find(p=>p.id===$("#dest").value);
