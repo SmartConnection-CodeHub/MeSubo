@@ -102,6 +102,12 @@ header.top .wrap{position:relative;z-index:1}
 .ok-msg{text-align:center;margin-bottom:16px}
 .ok-msg h2{margin:6px 0}
 .actions{display:flex;gap:10px;justify-content:center;margin:16px 0;flex-wrap:wrap}
+.dias{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0}
+.dia input{position:absolute;opacity:0}
+.dia span{display:inline-block;padding:8px 14px;border-radius:99px;border:1.5px solid var(--borde);font-weight:700;font-size:14px;cursor:pointer;background:#fff}
+.dia input:checked+span{background:var(--noche);color:#fff;border-color:var(--noche)}
+.dia input:focus-visible+span{outline:2px solid var(--magenta)}
+.dia input:disabled+span{opacity:.85;cursor:default}
 .tabs{display:flex;max-width:460px;margin:8px auto 16px;background:#e4dff0;border-radius:99px;padding:4px}
 .tabs button{flex:1;border:0;background:transparent;font:inherit;font-weight:700;font-size:14px;padding:10px;border-radius:99px;cursor:pointer;color:var(--gris)}
 .tabs button.on{background:var(--noche);color:#fff}
@@ -249,12 +255,12 @@ header.top .wrap{position:relative;z-index:1}
   <nav class="hnav wrap">
     <div class="logo">Me<span>Subo</span></div>
     <div class="hlinks">
-      <a href="#beneficios">¿Cómo funciona?</a><a href="#" data-tab="mes">Pase mensual</a><a href="#empresas">Empresas</a>
+      <a href="#beneficios">¿Cómo funciona?</a><a href="#" data-tab="mes">Pases</a><a href="#empresas">Empresas</a>
       <a href="#aeropuerto">Aeropuerto <span class="pill">Fase 2</span></a><a class="back" href="index.html">← Presentación</a>
     </div>
   </nav>
   <div class="hero-txt wrap">
-    <h1 id="heroH">Tu asiento a Santiago,<br>desde la puerta de tu casa</h1>
+    <h1 id="heroH">Tu asiento a Santiago,<br>desde un punto cerca de tu casa</h1>
     <p id="heroP">Concón · Reñaca · Viña · Curauma → Santiago Centro · Costanera · Las Condes</p>
     <div class="dots" role="tablist" aria-label="Imágenes destacadas"><button class="on" aria-label="Santiago de noche"></button><button aria-label="Amanecer desde tu asiento"></button></div>
   </div>
@@ -263,7 +269,7 @@ header.top .wrap{position:relative;z-index:1}
 <div class="booker wrap no-print">
   <div class="btabs" role="tablist">
     <button class="on" data-tab="compra">🎟 Compra tu pasaje</button>
-    <button data-tab="mes">📅 Pase mensual</button>
+    <button data-tab="mes">📅 Pases flex</button>
     <button data-tab="cambia">🔁 Cambia tu pasaje</button>
     <button data-tab="anula">✖ Anula tu pasaje</button>
     <button data-tab="aero">✈️ Aeropuerto <span class="pill">Fase 2</span></button>
@@ -309,10 +315,10 @@ header.top .wrap{position:relative;z-index:1}
         <h3>Tu ruta</h3>
         <p id="rutaTxt"></p>
         <h3 style="margin-top:16px">Incluye</h3>
-        <span class="chip">Puerta a puerta*</span><span class="chip">Wi-Fi</span><span class="chip">Enchufe USB</span><span class="chip">Seguro de pasajero</span>
+        <span class="chip">8 + 8 puntos de encuentro*</span><span class="chip">Wi-Fi</span><span class="chip">Enchufe USB</span><span class="chip">Seguro de pasajero</span>
         <p class="note">*Paradas preliminares, sujetas a lo que autorice la Seremi de Transportes.</p>
         <h3 style="margin-top:16px">Plan</h3>
-        <p><b>Diario:</b> pagas por día.<br><b>Pase mensual:</b> 20 días con asiento fijo (−5%).</p>
+        <p><b>Por viaje:</b> pagas el día.<br><b>Flex:</b> 1, 2 o 3 días por semana.<br><b>Mensual:</b> todos los días (−8%).</p>
       </aside>
       <div id="trips"></div>
     </div>
@@ -329,7 +335,8 @@ header.top .wrap{position:relative;z-index:1}
           <div><label for="mail">Correo (aquí llega tu e-ticket)</label><input id="mail" type="email" value="camila.rojas@empresa.cl" placeholder="camila@empresa.cl" autocomplete="email"></div>
           <div><label for="fono">Celular</label><input id="fono" value="+56 9 1234 5678" placeholder="+56 9 1234 5678" autocomplete="tel"></div>
           <div><label for="plan">Plan</label>
-            <select id="plan"><option value="dia">Diario</option><option value="mes">Pase mensual (20 días, −5%)</option></select></div>
+            <select id="plan"></select></div>
+          <div style="grid-column:1/-1" id="diasBox" hidden><label>¿Qué días viajas?</label><div class="dias" id="dias"></div><small id="diasTxt" class="muted"></small></div>
           <div><label for="emp">Empresa donde trabajas (opcional)</label><input id="emp" placeholder="Para convenios corporativos"></div>
         </div>
         <h3>Medio de pago</h3>
@@ -378,9 +385,9 @@ header.top .wrap{position:relative;z-index:1}
 </main>
 
 <section class="feats wrap no-print" id="beneficios">
-  <div><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></span><h3>Cerca de tu casa</h3><p>Paradas en Concón, Reñaca, Viña y Curauma. Sin ir al terminal.</p></div>
+  <div><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></span><h3>Puntos de encuentro</h3><p>8 en Concón, Reñaca, Viña y Curauma, y 8 en Santiago junto al Metro. Sin ir al terminal.</p></div>
   <div><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><h3>Llegas a la hora</h3><p>Si un bus falla, el operador manda otro de reemplazo. Te avisamos por WhatsApp.</p></div>
-  <div><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><h3>Pase mensual</h3><p>Asiento fijo por 20 días hábiles y 5% de descuento. Pagas una vez al mes.</p></div>
+  <div><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><h3>Vas cuando necesitas</h3><p>1, 2 o 3 días por semana, o todos. Eliges tus días y pagas solo eso.</p></div>
   <div><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span><h3>Operador formal</h3><p>Buses inscritos, con conductor profesional, seguros y revisión técnica al día.</p></div>
 </section>
 
@@ -450,16 +457,30 @@ header.top .wrap{position:relative;z-index:1}
 </div></div>
 
 <script>
+// puntos de encuentro estratégicos (propuesta preliminar, sujeta a Seremi): 8 en la V Región y 8 en Santiago
+// h = hora de paso en la mañana · hv = hora de paso en la tarde (regreso)
 const PARADAS_SUBIDA=[
-  {id:"concon",n:"Concón · Av. Borgoño",h:"05:20",hv:"20:05"},
-  {id:"renaca",n:"Reñaca · Av. Edmundo Eluchans",h:"05:35",hv:"19:50"},
-  {id:"vina",n:"Viña · Libertad / 15 Norte",h:"05:50",hv:"19:35"},
-  {id:"agua",n:"Viña · Agua Santa",h:"06:00",hv:"19:25"},
-  {id:"curauma",n:"Curauma · Acceso Ruta 68",h:"06:15",hv:"19:05"}];
+  {id:"concon1",z:"Concón",n:"Concón · Higuerillas (Av. Borgoño)",h:"05:20",hv:"20:45"},
+  {id:"concon2",z:"Concón",n:"Concón · Centro (Plaza Concón)",h:"05:28",hv:"20:37"},
+  {id:"renaca1",z:"Reñaca",n:"Reñaca · Borgoño / Edmundo Eluchans",h:"05:36",hv:"20:29"},
+  {id:"renaca2",z:"Reñaca",n:"Reñaca · Jardín del Mar",h:"05:43",hv:"20:22"},
+  {id:"vina1",z:"Viña",n:"Viña · 15 Norte / Libertad",h:"05:52",hv:"20:13"},
+  {id:"vina2",z:"Viña",n:"Viña · Plaza Sucre / Libertad",h:"06:00",hv:"20:05"},
+  {id:"vina3",z:"Viña",n:"Viña · Agua Santa",h:"06:08",hv:"19:57"},
+  {id:"curauma",z:"Curauma",n:"Curauma · Acceso Ruta 68",h:"06:20",hv:"19:45"}];
 const PARADAS_BAJADA=[
-  {id:"centro",n:"Santiago Centro · Alameda",h:"07:25",hv:"17:45"},
-  {id:"costanera",n:"Costanera / Tobalaba",h:"07:45",hv:"17:30"},
-  {id:"manquehue",n:"Las Condes · Manquehue",h:"08:00",hv:"17:15"}];
+  {id:"pajaritos",n:"Metro Pajaritos",h:"07:15",hv:"18:55"},
+  {id:"heroes",n:"Alameda · Metro Los Héroes",h:"07:25",hv:"18:45"},
+  {id:"moneda",n:"Santiago Centro · Metro La Moneda",h:"07:32",hv:"18:38"},
+  {id:"mmontt",n:"Providencia · Metro Manuel Montt",h:"07:42",hv:"18:28"},
+  {id:"leones",n:"Providencia · Metro Los Leones",h:"07:48",hv:"18:22"},
+  {id:"costanera",n:"Costanera Center · Metro Tobalaba",h:"07:55",hv:"18:15"},
+  {id:"golf",n:"El Golf · Metro Alcántara",h:"08:02",hv:"18:08"},
+  {id:"manquehue",n:"Las Condes · Metro Manquehue",h:"08:10",hv:"18:00"}];
+// planes según cuántos días a la semana viaja cada persona (precios hipótesis)
+const PLANES={dia:{n:1,d:0,dias:0,l:"Solo este viaje"},f1:{n:4,d:0,dias:1,l:"Flex 1 día/semana · 4 viajes al mes"},
+  f2:{n:8,d:.03,dias:2,l:"Flex 2 días/semana · 8 viajes (−3%)"},f3:{n:12,d:.05,dias:3,l:"Flex 3 días/semana · 12 viajes (−5%)"},
+  mes:{n:20,d:.08,dias:5,l:"Mensual · todos los días · 20 viajes (−8%)"}};
 const PRECIO={iv:20000,i:11000,v:11000};
 const BUSES=[
   {op:"Operador A (por adjudicar)",tipo:"Semi cama · 45 asientos",salida:0},
@@ -493,7 +514,7 @@ function render(){
         <div><small>Ida</small><br><b>${sub}</b> → <b>${baj}</b>${tr!=="i"?`<br><small>Vuelta</small><br><b>${vs}</b> → <b>${vb}</b>`:""}</div>
         <div><small>${b.tipo}</small><br><small>${libres<6?"¡Últimos asientos!":libres+" disponibles"}</small></div>
         <div style="text-align:right"><small>Desde</small><div class="price">${clp(PRECIO[tr])}</div><button class="btn" data-i="${i}" onclick="auto=false;openSeats(${i})">ELEGIR ASIENTO</button></div>
-        <div class="meta"><span>⏱ ~2 h 05 min</span><span>🔌 USB</span><span>📶 Wi-Fi</span><span>❄️ A/C</span><span>🛡 Seguro obligatorio</span></div>
+        <div class="meta"><span>⏱ ~2 h</span><span>🔌 USB</span><span>📶 Wi-Fi</span><span>❄️ A/C</span><span>🛡 Seguro obligatorio</span></div>
       </div>
       <div class="seatbox" id="sb${i}"></div>
     </div>`}).join("");
@@ -539,24 +560,36 @@ function openSeats(i){
   if(!auto)box.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 let auto=true;
-function total(){const base=PRECIO[$("#tramo").value]*st.seats.length;return $("#plan").value==="mes"?base*20*0.95:base}
+const PL=()=>PLANES[$("#plan").value];
+function total(){const base=PRECIO[$("#tramo").value]*st.seats.length,p=PL();return base*p.n*(1-p.d)}
+const DN=["Lun","Mar","Mié","Jue","Vie"];
+Object.entries(PLANES).forEach(([k,v])=>$("#plan").add(new Option(v.l,k)));
+$("#dias").innerHTML=DN.map((d,i)=>`<label class="dia"><input type="checkbox" value="${i}"><span>${d}</span></label>`).join("");
+function diasSel(){return [...document.querySelectorAll("#dias input:checked")].map(x=>DN[x.value])}
+function syncDias(){const p=PL(),box=$("#diasBox"),cbs=[...document.querySelectorAll("#dias input")];
+  box.hidden=!p.dias;cbs.forEach((c,i)=>{if(p.dias===5){c.checked=true;c.disabled=true}else{c.disabled=false}});
+  if(p.dias&&p.dias<5){let on=cbs.filter(c=>c.checked);while(on.length>p.dias){on.pop().checked=false;on=cbs.filter(c=>c.checked)}
+    cbs.forEach((c,i)=>{if(cbs.filter(x=>x.checked).length<p.dias&&!c.checked&&[0,2,4,1,3].slice(0,p.dias).includes(i))c.checked=true})}
+  $("#diasTxt").textContent=p.dias&&p.dias<5?`Elige ${p.dias} día${p.dias>1?"s":""}. Tu asiento queda fijo esos días.`:p.dias===5?"De lunes a viernes, con tu asiento fijo.":"";
+  resumen()}
+document.querySelectorAll("#dias input").forEach(c=>c.addEventListener("change",()=>{const p=PL(),on=document.querySelectorAll("#dias input:checked");if(on.length>p.dias)c.checked=false;resumen()}));
 function resumen(){
   const o=PARADAS_SUBIDA.find(p=>p.id===$("#orig").value), de=PARADAS_BAJADA.find(p=>p.id===$("#dest").value);
   $("#resumen").innerHTML=`<dt>Sube</dt><dd>${o.n}</dd><dt>Baja</dt><dd>${de.n}</dd><dt>Fecha</dt><dd>${fechaTxt()}</dd>
    <dt>Tramo</dt><dd>${$("#tramo").selectedOptions[0].text}</dd><dt>Asiento(s)</dt><dd>${st.seats.sort((a,b)=>a-b).join(", ")}</dd>
-   <dt>Plan</dt><dd>${$("#plan").value==="mes"?"Pase mensual · 20 días":"Diario"}</dd><dt>IVA</dt><dd>Exento</dd>`;
+   <dt>Plan</dt><dd>${PL().l}</dd>${PL().dias?`<dt>Días</dt><dd>${diasSel().join(", ")||"—"}</dd>`:""}<dt>IVA</dt><dd>Exento</dd>`;
   $("#totalTxt").textContent=clp(total());
 }
 function go(n){
   document.querySelectorAll(".panel").forEach((p,i)=>p.classList.toggle("on",i===n-1));
   document.querySelectorAll("#steps div").forEach((s,i)=>{s.className=i<n-1?"done":i===n-1?"on":""});
-  if(n===2)resumen();
+  if(n===2)syncDias();
   $("#steps").scrollIntoView({behavior:"smooth",block:"start"});
 }
 // demo: siempre se aprueba; los campos vacíos se completan con datos de prueba
 const DEMO={nom:"Camila Rojas",rut:"12.345.678-5",mail:"camila.rojas@empresa.cl"};
 const val=id=>$("#"+id).value.trim()||DEMO[id];
-$("#plan").onchange=resumen;
+$("#plan").onchange=syncDias;
 document.querySelectorAll(".payopt").forEach(p=>p.onclick=()=>{document.querySelectorAll(".payopt").forEach(x=>x.classList.remove("on"));p.classList.add("on");st.pay=p.dataset.p});
 $("#volver1").onclick=()=>go(1);
 $("#buscar").onclick=()=>{render();go(1)};
@@ -587,13 +620,13 @@ function ticket(){
       <div class="tk-row3"><div><b>N° TRANSACCIÓN</b><br>${trx}</div><div><b>N° BOLETO</b><br>${bol}</div><div><b>N° ASIENTO</b><br>${asientos} (Semi cama)</div></div>
     </div>
     <div class="tk-box">
-      <b>PASAJERO:</b> ${nom}<br><b>RUT / Pasaporte:</b> ${rut}<br><b>Plan:</b> ${$("#plan").value==="mes"?"Pase mensual":"Diario"} · ${st.pay}
+      <b>PASAJERO:</b> ${nom}<br><b>RUT / Pasaporte:</b> ${rut}<br><b>Plan:</b> ${PL().l}${PL().dias?" · "+diasSel().join(", "):""} · ${st.pay}
       <div class="tk-total"><span>MONTO TOTAL</span><span>CLP ${clp(total())}</span></div>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start">
     <ul class="tk-cond">
-      <li>Preséntate en tu parada 5 minutos antes. El bus espera máximo 2 minutos.</li>
+      <li>Llega a tu punto de encuentro 5 minutos antes. El bus espera máximo 2 minutos.</li>
       <li>Te avisamos por WhatsApp si hay atraso. Si el bus falla, el operador envía un bus de reemplazo o se devuelve el 100%.</li>
       <li>Puedes anular hasta las 20:00 del día anterior desde la app (política por definir; referencia Art. 67 D.S. 212).</li>
       <li>Transporte de pasajeros exento de IVA. El documento tributario lo emite quien preste el servicio (por definir).</li>
@@ -670,7 +703,7 @@ $("#b2").style.backgroundImage=strip("#4a2a62",70,55,9,11);
 $("#b3").style.backgroundImage=strip("#1d1236",30,60,8,5,trees.replace(/%23/g,"#"));
 
 // carrusel del hero
-const HERO=[["Tu asiento a Santiago,<br>desde la puerta de tu casa","Concón · Reñaca · Viña · Curauma → Santiago Centro · Costanera · Las Condes"],
+const HERO=[["Tu asiento a Santiago,<br>desde un punto cerca de tu casa","Concón · Reñaca · Viña · Curauma → Santiago Centro · Costanera · Las Condes"],
   ["Duerme 2 horas más.<br>Nosotros manejamos.","Wi-Fi, enchufe USB y tu asiento fijo todos los días"]];
 let hi=0,ht;
 function hero(i){hi=i;["#slide1","#slide2"].forEach((s,j)=>$(s).classList.toggle("on",j===i));
@@ -684,7 +717,7 @@ function tab(t){
   document.querySelectorAll(".btabs button").forEach(b=>b.classList.toggle("on",b.dataset.tab===t));
   $("#bCompra").hidden=!["compra","mes"].includes(t);$("#bCambia").hidden=t!=="cambia";$("#bAnula").hidden=t!=="anula";$("#bAero").hidden=t!=="aero";
   $("#bMsg").hidden=true;
-  if(t==="mes"){$("#plan").value="mes";$("#tramo").value="iv";render();$("#bMsg").hidden=false;$("#bMsg").textContent="📅 Pase mensual: 20 días hábiles con tu asiento fijo y 5% de descuento. Elige tu asiento y continúa."}
+  if(t==="mes"){$("#plan").value="f2";$("#tramo").value="iv";render();syncDias();$("#bMsg").hidden=false;$("#bMsg").textContent="📅 Pases flex: viaja 1, 2 o 3 días por semana, o todos los días (−8%). Elige tu asiento y en el paso 2 marcas tus días."}
 }
 document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();tab(b.dataset.tab);$(".booker").scrollIntoView({behavior:"smooth",block:"center"})}));
 function simMsg(btn,t){$("#bMsg").hidden=false;$("#bMsg").textContent="ℹ️ "+t}
