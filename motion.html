@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MeSubo · Motion</title>
+<meta name="description" content="Video promocional animado de la app MeSubo (concepto · simulación).">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231B1440'/%3E%3Ctext x='32' y='43' font-size='30' text-anchor='middle' font-family='Arial' font-weight='800' fill='%23D9468A'%3EMS%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noche:#1B1440; --violeta:#4B2A7B; --magenta:#D9468A; --atardecer:#F5872A;
+  --mar:#127C8A; --arena:#F6D743; --espuma:#F5F2FB; --ok:#2BB673;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#07051A;color:var(--espuma);font-family:Outfit,system-ui,sans-serif;overflow:hidden}
+.stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;
+  background:radial-gradient(1200px 800px at 75% 40%,var(--glow,#4B2A7B55),transparent 70%),linear-gradient(160deg,#0B0826 0%,#1B1440 60%,#07051A 100%)}
+.grid{position:absolute;inset:0;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:80px 80px}
+.trail{position:absolute;height:4px;border-radius:4px;filter:blur(1px);opacity:0}
+.logo{font-weight:900;letter-spacing:-4px;line-height:1}
+.logo span{color:var(--magenta)}
+.intro{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px}
+.intro .logo{font-size:240px}
+.intro .tag{font-size:44px;font-weight:600;opacity:.85}
+.hl{position:absolute;left:150px;top:380px;width:900px;font-size:118px;font-weight:900;line-height:1.02;letter-spacing:-3px}
+.hl em{font-style:normal}
+.hl em i{background:linear-gradient(90deg,var(--magenta),var(--atardecer));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hl .sub{display:block;font-size:38px;font-weight:600;letter-spacing:0;margin-top:26px;color:#CFC6EA}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em}
+.w>i{display:inline-block;font-style:normal}
+.phone{position:absolute;left:1180px;top:110px;width:430px;height:860px;border-radius:64px;background:#0A0818;
+  box-shadow:0 0 0 12px #2A2342,0 0 0 14px #4B2A7B,0 60px 120px #000a,0 0 140px var(--glow,#4B2A7B66)}
+.notch{position:absolute;top:18px;left:50%;width:130px;height:34px;margin-left:-65px;border-radius:20px;background:#000;z-index:5}
+.scr{position:absolute;inset:14px;border-radius:52px;overflow:hidden;background:linear-gradient(180deg,#1B1440,#2A1A55);opacity:0;padding:80px 30px 30px}
+.scr h4{font-size:30px;font-weight:800;margin-bottom:6px}
+.scr p.m{font-size:19px;color:#BDB3DE;margin-bottom:24px}
+.route{position:relative;margin:10px 0 0 26px;height:560px}
+.route .line{position:absolute;left:12px;top:10px;width:5px;height:540px;background:#ffffff22;border-radius:4px}
+.route .fill{position:absolute;left:12px;top:10px;width:5px;height:0;background:linear-gradient(var(--atardecer),var(--magenta));border-radius:4px}
+.stop{position:absolute;left:0;display:flex;align-items:center;gap:22px;font-size:22px;font-weight:600}
+.stop b{width:29px;height:29px;border-radius:50%;background:#2A2342;border:4px solid #ffffff44;flex:none}
+.stop small{display:block;color:#BDB3DE;font-weight:400;font-size:17px}
+.row{display:flex;justify-content:space-between;align-items:center;background:#ffffff10;border-radius:18px;padding:18px 20px;margin-bottom:12px;font-size:21px;font-weight:600}
+.row span{color:#BDB3DE;font-weight:400}
+.row.sel{background:linear-gradient(90deg,var(--magenta),var(--atardecer));color:#fff}
+.row.sel span{color:#fff}
+.seats{display:grid;grid-template-columns:repeat(2,52px) 30px repeat(2,52px);gap:12px;justify-content:center;margin-top:10px}
+.seat{height:52px;border-radius:12px 12px 8px 8px;background:#ffffff1c;border:2px solid #ffffff22}
+.seat.busy{background:#ffffff0a;border-color:#ffffff10}
+.seat.gap{visibility:hidden}
+.plan{border-radius:22px;padding:22px;margin-bottom:14px;background:#ffffff10;border:2px solid #ffffff18}
+.plan.top{background:linear-gradient(135deg,#4B2A7B,#D9468A);border-color:transparent}
+.plan .n{font-size:46px;font-weight:900}
+.plan .d{float:right;background:var(--arena);color:#1E1A2E;font-weight:800;border-radius:30px;padding:6px 14px;font-size:20px}
+.qr{width:300px;height:300px;margin:20px auto;background:#fff;border-radius:22px;padding:18px}
+.ok{margin:18px auto 0;width:max-content;background:var(--ok);color:#fff;font-weight:800;border-radius:40px;padding:14px 30px;font-size:24px;opacity:0}
+.card{position:absolute;padding:22px 30px;border-radius:24px;background:#fff;color:#1E1A2E;font-size:28px;font-weight:800;box-shadow:0 30px 60px #0008;opacity:0}
+.card small{display:block;font-size:19px;font-weight:600;color:#5E5873}
+.card .dot{display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--magenta);margin-right:10px}
+.fan{position:absolute;inset:0;opacity:0}
+.mini{position:absolute;left:810px;top:250px;width:300px;height:600px;border-radius:48px;border:10px solid #2A2342;transform-origin:50% 120%}
+.outro{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;opacity:0}
+.outro .logo{font-size:200px}
+.outro .tag{font-size:50px;font-weight:600}
+.outro .tag em{font-style:normal;color:var(--arena)}
+.badge{position:absolute;right:40px;top:34px;font-size:20px;font-weight:600;letter-spacing:2px;color:#ffffff88;text-transform:uppercase}
+.ctrl{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);display:flex;gap:8px;z-index:10;align-items:center}
+.ctrl button,.ctrl a{font:600 14px Outfit,sans-serif;color:#fff;background:#ffffff1f;border:1px solid #ffffff33;border-radius:30px;padding:8px 16px;cursor:pointer;text-decoration:none}
+.ctrl button:hover,.ctrl a:hover{background:#ffffff33}
+.ctrl button:focus-visible,.ctrl a:focus-visible{outline:2px solid var(--arena);outline-offset:2px}
+#intro,#introLogo,.hl,.scr,.mini{filter:blur(0px)}
+.prog{width:160px;height:4px;border-radius:4px;background:#ffffff22;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--magenta),var(--atardecer))}
+</style>
+</head>
+<body>
+<div class="stage" id="stage" role="img" aria-label="Video animado de la app MeSubo: eliges parada, asiento, pase mensual y subes con QR.">
+  <div class="grid"></div>
+  <div id="trails"></div>
+  <div class="badge">Concepto · simulación</div>
+
+  <div class="intro" id="intro">
+    <div class="logo" id="introLogo">Me<span>Subo</span></div>
+    <div class="tag" id="introTag">Costa → Santiago, todos los días</div>
+  </div>
+
+  <h2 class="hl" data-s="1">Llega a Santiago <em>sin manejar.</em><span class="sub">6 paradas en la costa · llegada 08:00</span></h2>
+  <h2 class="hl" data-s="2">Elige tu <em>parada.</em><span class="sub">Puntos de encuentro, no puerta a puerta</span></h2>
+  <h2 class="hl" data-s="3">Tu asiento, <em>asegurado.</em><span class="sub">Ventana o pasillo, cada día</span></h2>
+  <h2 class="hl" data-s="4">Paga una vez, viaja <em>todo el mes.</em><span class="sub">Pases de 1, 2, 3 días o diario</span></h2>
+  <h2 class="hl" data-s="5">Subes con tu <em>QR.</em><span class="sub">Y si el bus falla, te devolvemos el día</span></h2>
+
+  <div class="phone" id="phone">
+    <div class="notch"></div>
+    <div class="scr" data-s="1">
+      <h4>Hoy · Ida</h4><p class="m">Concón → Manquehue</p>
+      <div class="route"><div class="line"></div><div class="fill" id="fill"></div></div>
+    </div>
+    <div class="scr" data-s="2">
+      <h4>¿Dónde subes?</h4><p class="m">Quinta Región · 6 puntos</p>
+      <div class="row">Concón Centro<span>05:20</span></div>
+      <div class="row">Concón Bosques<span>05:28</span></div>
+      <div class="row" id="rowSel">Reñaca<span>05:38</span></div>
+      <div class="row">Viña Centro<span>05:50</span></div>
+      <div class="row">Viña 15 Norte<span>06:02</span></div>
+      <div class="row">Curauma<span>06:15</span></div>
+    </div>
+    <div class="scr" data-s="3">
+      <h4>Elige asiento</h4><p class="m">Bus 45 asientos · 22 libres</p>
+      <div class="seats" id="seats"></div>
+    </div>
+    <div class="scr" data-s="4">
+      <h4>Pases flex</h4><p class="m">Mientras más viajas, menos pagas</p>
+      <div class="plan"><span class="d">−3%</span><div class="n">8</div>viajes · 1 día/semana</div>
+      <div class="plan"><span class="d">−5%</span><div class="n">12</div>viajes · 3 días/semana</div>
+      <div class="plan top" id="planTop"><span class="d">−<b id="pct">0</b>%</span><div class="n"><b id="cnt">0</b></div>viajes · todo el mes</div>
+    </div>
+    <div class="scr" data-s="5">
+      <h4>Tu pase</h4><p class="m">Reñaca 05:38 · Asiento 12</p>
+      <div class="qr"><svg id="qr" viewBox="0 0 29 29" width="264" height="264" shape-rendering="crispEdges"></svg></div>
+      <div class="ok" id="ok">✔ Abordaje OK</div>
+    </div>
+  </div>
+
+  <div class="card" id="cardStop" style="left:1520px;top:470px"><span class="dot"></span>Reñaca · 05:38<small>Tu punto de encuentro</small></div>
+  <div class="card" id="cardSeat" style="left:1530px;top:300px"><span class="dot"></span>Asiento 12<small>Ventana · lado mar</small></div>
+
+  <div class="fan" id="fan">
+    <div class="mini" style="background:linear-gradient(160deg,#4B2A7B,#D9468A)"></div>
+    <div class="mini" style="background:linear-gradient(160deg,#127C8A,#4B2A7B)"></div>
+    <div class="mini" style="background:linear-gradient(160deg,#F5872A,#D9468A)"></div>
+  </div>
+
+  <div class="outro" id="outro">
+    <div class="logo">Me<span>Subo</span></div>
+    <div class="tag">Duerme en el camino. <em>Llega a las 08:00.</em></div>
+  </div>
+</div>
+
+<div class="ctrl">
+  <button id="bPlay" type="button" aria-label="Pausar">⏸ Pausa</button>
+  <button id="bRe" type="button">↺ Repetir</button>
+  <div class="prog" aria-hidden="true"><i id="bar"></i></div>
+  <a href="reservar.html">Probar la demo →</a>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+// Escala el escenario 1920x1080 a la ventana
+const stage=document.getElementById('stage');
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform='scale('+s+') translate(-50%,-50%)';}
+addEventListener('resize',fit);fit();
+
+// Paradas de la ruta (pantalla 1)
+const STOPS=[['Concón','05:20'],['Reñaca','05:38'],['Viña','05:50'],['Curauma','06:15'],['Los Héroes','07:20'],['Manquehue','08:00']];
+const route=document.querySelector('.route');
+STOPS.forEach((s,i)=>{const d=document.createElement('div');d.className='stop';d.style.top=(i*104)+'px';
+  d.innerHTML='<b></b><div>'+s[0]+'<small>'+s[1]+'</small></div>';route.appendChild(d);});
+
+// Asientos (pantalla 3): 9 filas, pasillo al medio
+const seats=document.getElementById('seats');const BUSY=[1,2,6,9,10,13,17,20,21,24,26,29,31,34,35];let n=0,mine;
+for(let r=0;r<9;r++)for(let c=0;c<5;c++){const d=document.createElement('div');
+  if(c===2){d.className='seat gap';}else{n++;d.className='seat'+(BUSY.includes(n)?' busy':'');if(n===12)mine=d;}
+  seats.appendChild(d);}
+
+// QR decorativo (no codifica nada real)
+(function(){const q=document.getElementById('qr');let h='<rect width="29" height="29" fill="#fff"/>';
+  const fin=(x,y)=>'<rect x="'+x+'" y="'+y+'" width="7" height="7" fill="#1B1440"/><rect x="'+(x+1)+'" y="'+(y+1)+'" width="5" height="5" fill="#fff"/><rect x="'+(x+2)+'" y="'+(y+2)+'" width="3" height="3" fill="#D9468A"/>';
+  let seed=7;const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
+  for(let y=0;y<29;y++)for(let x=0;x<29;x++){const inF=(x<8&&y<8)||(x>20&&y<8)||(x<8&&y>20);if(!inF&&rnd()>.52)h+='<rect x="'+x+'" y="'+y+'" width="1" height="1" fill="#1B1440"/>';}
+  q.innerHTML=h+fin(0,0)+fin(22,0)+fin(0,22);})();
+
+// Estelas de luz de fondo (autos de noche)
+const tr=document.getElementById('trails');const COL=['#F5872A','#D9468A','#F6D743','#ffffff'];
+for(let i=0;i<14;i++){const t=document.createElement('div');t.className='trail';
+  t.style.top=(560+Math.random()*480)+'px';t.style.width=(160+Math.random()*320)+'px';
+  t.style.background='linear-gradient(90deg,transparent,'+COL[i%4]+')';tr.appendChild(t);
+  gsap.fromTo(t,{x:-500,opacity:0},{x:2300,opacity:.55,duration:2.5+Math.random()*3,repeat:-1,delay:Math.random()*4,ease:'none'});}
+
+// Reveal palabra por palabra
+document.querySelectorAll('.hl').forEach(h=>{
+  const sub=h.querySelector('.sub');sub.remove();
+  const wrap=node=>{[...node.childNodes].forEach(c=>{
+    if(c.nodeType===3){const f=document.createDocumentFragment();
+      c.textContent.split(/(\s+)/).forEach(p=>{if(!p)return;if(/^\s+$/.test(p)){f.append(p);return;}
+        const w=document.createElement('span');w.className='w';w.innerHTML='<i>'+p+'</i>';f.append(w);});
+      c.replaceWith(f);}else wrap(c);});};
+  wrap(h);h.append(sub);gsap.set(h,{autoAlpha:0});});
+
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const GLOW=['#4B2A7B66','#F5872A55','#D9468A55','#127C8A66','#F6D74344','#2BB67355'];
+const tl=gsap.timeline({repeat:-1,repeatDelay:1.2,defaults:{ease:'power3.out'},onUpdate(){$('#bar').style.width=(tl.progress()*100)+'%';}});
+
+// 1 · Intro logo
+tl.from('#introLogo',{scale:.6,filter:'blur(30px)',autoAlpha:0,duration:1.1,ease:'expo.out'})
+  .from('#introTag',{y:40,autoAlpha:0,duration:.7},'-=.4')
+  .to('#intro',{scale:1.15,filter:'blur(24px)',autoAlpha:0,duration:.7,ease:'power2.in'},'+=1.1')
+  .fromTo('#phone',{y:260,rotate:6,autoAlpha:0},{y:0,rotate:0,autoAlpha:1,duration:1,ease:'expo.out'},'-=.3');
+
+function scene(i,dur,extra){
+  const h=$('.hl[data-s="'+i+'"]'),s=$('.scr[data-s="'+i+'"]');
+  tl.addLabel('s'+i).to(stage,{'--glow':GLOW[i],duration:.8},'s'+i)
+    .set(h,{autoAlpha:1},'s'+i)
+    .from(h.querySelectorAll('.w>i'),{yPercent:110,duration:.6,stagger:.08},'s'+i)
+    .from(h.querySelector('.sub'),{y:20,autoAlpha:0,duration:.5},'s'+i+'+=.5')
+    .fromTo(s,{autoAlpha:0,scale:1.08,filter:'blur(14px)'},{autoAlpha:1,scale:1,filter:'blur(0px)',duration:.6},'s'+i);
+  if(extra)extra('s'+i);
+  tl.to(h,{autoAlpha:0,x:-80,filter:'blur(16px)',duration:.45,ease:'power2.in'},'s'+i+'+='+dur)
+    .to(s,{autoAlpha:0,filter:'blur(14px)',duration:.45,ease:'power2.in'},'<');
+}
+scene(1,3.8,l=>{tl.to('#fill',{height:540,duration:2.6,ease:'none'},l+'+=.4')
+  .to('.stop b',{background:'#D9468A',borderColor:'#fff',stagger:.42,duration:.2},l+'+=.4');});
+scene(2,3.8,l=>{tl.call(()=>$('#rowSel').classList.add('sel'),null,l+'+=1.2')
+  .fromTo('#cardStop',{autoAlpha:0,x:-160,scale:.6,rotate:-8},{autoAlpha:1,x:0,scale:1,rotate:0,duration:.7,ease:'back.out(1.8)'},l+'+=1.3')
+  .to('#cardStop',{autoAlpha:0,y:-40,duration:.4},l+'+=3.6');});
+scene(3,3.8,l=>{tl.from('#seats .seat:not(.gap)',{scale:0,stagger:.015,duration:.3,ease:'back.out(2)'},l+'+=.2')
+  .to(mine,{background:'#D9468A',borderColor:'#fff',scale:1.25,duration:.35,ease:'back.out(3)'},l+'+=1.4')
+  .fromTo('#cardSeat',{autoAlpha:0,x:-160,scale:.6,rotate:8},{autoAlpha:1,x:0,scale:1,rotate:0,duration:.7,ease:'back.out(1.8)'},l+'+=1.5')
+  .to('#cardSeat',{autoAlpha:0,y:-40,duration:.4},l+'+=3.6');});
+scene(4,3.8,l=>{tl.from('.scr[data-s="4"] .plan',{y:80,autoAlpha:0,stagger:.15,duration:.5},l+'+=.2')
+  .to('#planTop',{scale:1.05,duration:.4,ease:'back.out(3)'},l+'+=1.1')
+  .to({v:0},{v:20,duration:1.2,ease:'power1.out',onUpdate(){$('#cnt').textContent=Math.round(this.targets()[0].v);}},l+'+=1.1')
+  .to({v:0},{v:8,duration:1.2,ease:'power1.out',onUpdate(){$('#pct').textContent=Math.round(this.targets()[0].v);}},l+'+=1.1');});
+scene(5,3.4,l=>{tl.from('.qr',{scale:.4,rotate:-12,duration:.7,ease:'back.out(1.6)'},l+'+=.2')
+  .to('#ok',{autoAlpha:1,scale:1.08,duration:.4,ease:'back.out(3)'},l+'+=1.5')
+  .to('#ok',{scale:1,duration:.2});});
+
+// 7 · Celulares en abanico → logo + tagline
+tl.addLabel('fin').to('#phone',{scale:.5,autoAlpha:0,duration:.5,ease:'power2.in'},'fin')
+  .to(stage,{'--glow':GLOW[0],duration:.8},'fin')
+  .set('#fan',{autoAlpha:1},'fin+=.3')
+  .fromTo('.mini',{rotate:0,y:200,autoAlpha:0},{rotate:i=>[-22,0,22][i],y:0,autoAlpha:1,duration:.8,stagger:.08,ease:'back.out(1.6)'},'fin+=.3')
+  .to('.mini',{scale:.2,autoAlpha:0,filter:'blur(10px)',duration:.6,ease:'power2.in'},'+=.6')
+  .fromTo('#outro',{autoAlpha:0,scale:.85},{autoAlpha:1,scale:1,duration:.9,ease:'expo.out'},'-=.2')
+  .from('#outro .tag',{y:30,autoAlpha:0,duration:.6},'-=.5')
+  .to({},{duration:2})
+  .to('#outro',{autoAlpha:0,duration:.5});
+
+// Reinicio limpio del contador y estados al repetir
+tl.eventCallback('onRepeat',()=>{$('#rowSel').classList.remove('sel');$('#cnt').textContent='0';$('#pct').textContent='0';});
+
+const bPlay=$('#bPlay');
+bPlay.onclick=()=>{tl.paused(!tl.paused());bPlay.textContent=tl.paused()?'▶ Play':'⏸ Pausa';bPlay.setAttribute('aria-label',tl.paused()?'Reproducir':'Pausar');};
+$('#bRe').onclick=()=>{tl.restart();tl.paused(false);bPlay.textContent='⏸ Pausa';};
+if(matchMedia('(prefers-reduced-motion: reduce)').matches){tl.pause();tl.progress(.97);bPlay.textContent='▶ Play';}
+</script>
+</body>
+</html>
