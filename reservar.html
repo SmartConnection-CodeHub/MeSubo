@@ -6,14 +6,16 @@
 <title>MeSubo · Reservar asiento (simulación)</title>
 <meta name="description" content="Simulación del flujo de reserva de MeSubo: buscar, elegir asiento, pagar y recibir el e-ticket.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<meta property="og:title" content="MeSubo · Tu asiento a Santiago">
+<meta property="og:description" content="Bus diario desde Concón, Reñaca, Viña y Curauma a Santiago. Reserva tu asiento (demo).">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%231B1440%27/%3E%3Ctext x=%2732%27 y=%2743%27 font-size=%2730%27 font-family=%27Arial%27 font-weight=%27bold%27 text-anchor=%27middle%27 fill=%27%23F6D743%27%3EMS%3C/text%3E%3C/svg%3E">
 <style>
 :root{
   --noche:#1B1440; --violeta:#4B2A7B; --magenta:#D9468A; --atardecer:#F5872A;
-  --mar:#127C8A; --arena:#F6D743; --espuma:#F5F2FB; --tinta:#1E1A2E; --gris:#6B6680;
+  --mar:#127C8A; --arena:#F6D743; --espuma:#F5F2FB; --tinta:#1E1A2E; --gris:#5E5873;
   --borde:#E3DEEE; --ok:#2BB673; --card:#FFFFFF;
   --grad: linear-gradient(120deg,#1B1440 0%,#4B2A7B 45%,#D9468A 80%,#F5872A 100%);
   --radio:16px;
@@ -40,14 +42,14 @@ header.top .wrap{position:relative;z-index:1}
 .btn.dark{background:var(--noche);color:#fff}
 .btn.ghost{background:transparent;border:1.5px solid var(--borde);color:var(--tinta)}
 .steps{display:flex;margin:22px 0 18px;border-radius:99px;overflow:hidden;background:#dcd7e7}
-.steps div{flex:1;text-align:center;padding:10px 6px;font-size:14px;font-weight:600;color:#8a849c}
+.steps div{flex:1;text-align:center;padding:10px 6px;font-size:14px;font-weight:600;color:#4f4866}
 .steps div.on{background:var(--noche);color:#fff}
 .steps div.done{background:var(--violeta);color:#fff}
 .panel{display:none}.panel.on{display:block}
 .layout{display:grid;grid-template-columns:260px 1fr;gap:18px}
 .layout>*{min-width:0}
 .card{background:var(--card);border-radius:var(--radio);box-shadow:0 4px 18px rgba(27,20,64,.08);padding:18px}
-.filters h3{margin:0 0 12px;font-size:16px}
+.filters h3,.h3{margin:0 0 12px;font-size:16px}
 .filters p{margin:6px 0;font-size:14px;color:var(--gris)}
 .chip{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;background:#efeaf7;color:var(--violeta);margin:2px 4px 2px 0}
 .trip{display:grid;grid-template-columns:1.3fr 1fr 1fr auto;gap:12px;align-items:center;margin-bottom:12px}
@@ -262,12 +264,12 @@ header.top .wrap{position:relative;z-index:1}
   <div class="hero-txt wrap">
     <h1 id="heroH">Tu asiento a Santiago,<br>desde un punto cerca de tu casa</h1>
     <p id="heroP">Concón · Reñaca · Viña · Curauma → Santiago Centro · Costanera · Las Condes</p>
-    <div class="dots" role="tablist" aria-label="Imágenes destacadas"><button class="on" aria-label="Santiago de noche"></button><button aria-label="Amanecer desde tu asiento"></button></div>
+    <div class="dots" aria-label="Imágenes destacadas"><button class="on" aria-pressed="true" aria-label="Santiago de noche"></button><button aria-pressed="false" aria-label="Amanecer desde tu asiento"></button></div>
   </div>
 </header>
 
 <div class="booker wrap no-print">
-  <div class="btabs" role="tablist">
+  <div class="btabs" aria-label="Qué quieres hacer">
     <button class="on" data-tab="compra">🎟 Compra tu pasaje</button>
     <button data-tab="mes">📅 Pases flex</button>
     <button data-tab="cambia">🔁 Cambia tu pasaje</button>
@@ -312,12 +314,12 @@ header.top .wrap{position:relative;z-index:1}
   <section class="panel on" id="p1">
     <div class="layout">
       <aside class="card filters">
-        <h3>Tu ruta</h3>
+        <h2 class="h3">Tu ruta</h2>
         <p id="rutaTxt"></p>
-        <h3 style="margin-top:16px">Incluye</h3>
-        <span class="chip">8 + 8 puntos de encuentro*</span><span class="chip">Wi-Fi</span><span class="chip">Enchufe USB</span><span class="chip">Seguro de pasajero</span>
+        <h2 class="h3" style="margin-top:16px">Incluye</h2>
+        <span class="chip">6 + 6 puntos de encuentro*</span><span class="chip">Wi-Fi</span><span class="chip">Enchufe USB</span><span class="chip">Seguro de pasajero</span>
         <p class="note">*Paradas preliminares, sujetas a lo que autorice la Seremi de Transportes.</p>
-        <h3 style="margin-top:16px">Plan</h3>
+        <h2 class="h3" style="margin-top:16px">Plan</h2>
         <p><b>Por viaje:</b> pagas el día.<br><b>Flex:</b> 1, 2 o 3 días por semana.<br><b>Mensual:</b> todos los días (−8%).</p>
       </aside>
       <div id="trips"></div>
@@ -375,9 +377,9 @@ header.top .wrap{position:relative;z-index:1}
       <button class="btn ghost" onclick="location.reload()">Nueva reserva</button>
     </div>
     <p class="note" id="pdfEstado" style="text-align:center">Generando PDF…</p>
-    <div class="tabs no-print" role="tablist">
-      <button class="on" data-v="pase" role="tab" aria-selected="true">📱 Pase móvil (QR)</button>
-      <button data-v="pdf" role="tab" aria-selected="false">📄 Vista PDF</button>
+    <div class="tabs no-print" aria-label="Formato del e-ticket">
+      <button class="on" data-v="pase" aria-pressed="true">📱 Pase móvil (QR)</button>
+      <button data-v="pdf" aria-pressed="false">📄 Vista PDF</button>
     </div>
     <div id="pase" class="no-print"></div>
     <div class="ticket card offstage" id="ticket"></div>
@@ -385,7 +387,7 @@ header.top .wrap{position:relative;z-index:1}
 </main>
 
 <section class="feats wrap no-print" id="beneficios">
-  <div><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></span><h3>Puntos de encuentro</h3><p>8 en Concón, Reñaca, Viña y Curauma, y 8 en Santiago junto al Metro. Sin ir al terminal.</p></div>
+  <div><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></span><h3>Puntos de encuentro</h3><p>6 en Concón, Reñaca, Viña y Curauma, y 6 en Santiago junto al Metro. Sin ir al terminal.</p></div>
   <div><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><h3>Llegas a la hora</h3><p>Si un bus falla, el operador manda otro de reemplazo. Te avisamos por WhatsApp.</p></div>
   <div><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><h3>Vas cuando necesitas</h3><p>1, 2 o 3 días por semana, o todos. Eliges tus días y pagas solo eso.</p></div>
   <div><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span><h3>Operador formal</h3><p>Buses inscritos, con conductor profesional, seguros y revisión técnica al día.</p></div>
@@ -399,7 +401,7 @@ header.top .wrap{position:relative;z-index:1}
       <div class="stores">
         <div class="store"><span class="sb">▶</span><span>Google Play<br><small>Próximamente</small></span></div>
         <div class="store"><span class="sb">📱</span><span>App Store<br><small>Próximamente</small></span></div>
-        <div class="qrapp" id="qrApp" aria-label="QR a la demo de reserva"></div>
+        <div class="qrapp" id="qrApp" role="img" aria-label="QR a la demo de reserva"></div>
       </div>
     </div>
     <div class="phones" aria-hidden="true">
@@ -457,26 +459,22 @@ header.top .wrap{position:relative;z-index:1}
 </div></div>
 
 <script>
-// puntos de encuentro estratégicos (propuesta preliminar, sujeta a Seremi): 8 en la V Región y 8 en Santiago
+// puntos de encuentro estratégicos (propuesta preliminar, sujeta a Seremi): 6 en la V Región y 6 en Santiago
 // h = hora de paso en la mañana · hv = hora de paso en la tarde (regreso)
 const PARADAS_SUBIDA=[
-  {id:"concon1",z:"Concón",n:"Concón · Higuerillas (Av. Borgoño)",h:"05:20",hv:"20:45"},
-  {id:"concon2",z:"Concón",n:"Concón · Centro (Plaza Concón)",h:"05:28",hv:"20:37"},
-  {id:"renaca1",z:"Reñaca",n:"Reñaca · Borgoño / Edmundo Eluchans",h:"05:36",hv:"20:29"},
-  {id:"renaca2",z:"Reñaca",n:"Reñaca · Jardín del Mar",h:"05:43",hv:"20:22"},
-  {id:"vina1",z:"Viña",n:"Viña · 15 Norte / Libertad",h:"05:52",hv:"20:13"},
-  {id:"vina2",z:"Viña",n:"Viña · Plaza Sucre / Libertad",h:"06:00",hv:"20:05"},
-  {id:"vina3",z:"Viña",n:"Viña · Agua Santa",h:"06:08",hv:"19:57"},
-  {id:"curauma",z:"Curauma",n:"Curauma · Acceso Ruta 68",h:"06:20",hv:"19:45"}];
+  {id:"concon1",z:"Concón",n:"Concón · Higuerillas (Av. Borgoño)",h:"05:20",hv:"20:37"},
+  {id:"concon2",z:"Concón",n:"Concón · Centro (Plaza Concón)",h:"05:28",hv:"20:29"},
+  {id:"renaca1",z:"Reñaca",n:"Reñaca · Borgoño / Edmundo Eluchans",h:"05:38",hv:"20:19"},
+  {id:"vina1",z:"Viña",n:"Viña · 15 Norte / Libertad",h:"05:50",hv:"20:07"},
+  {id:"vina3",z:"Viña",n:"Viña · Agua Santa",h:"06:02",hv:"19:57"},
+  {id:"curauma",z:"Curauma",n:"Curauma · Acceso Ruta 68",h:"06:15",hv:"19:45"}];
 const PARADAS_BAJADA=[
-  {id:"pajaritos",n:"Metro Pajaritos",h:"07:15",hv:"18:55"},
-  {id:"heroes",n:"Alameda · Metro Los Héroes",h:"07:25",hv:"18:45"},
-  {id:"moneda",n:"Santiago Centro · Metro La Moneda",h:"07:32",hv:"18:38"},
-  {id:"mmontt",n:"Providencia · Metro Manuel Montt",h:"07:42",hv:"18:28"},
-  {id:"leones",n:"Providencia · Metro Los Leones",h:"07:48",hv:"18:22"},
-  {id:"costanera",n:"Costanera Center · Metro Tobalaba",h:"07:55",hv:"18:15"},
-  {id:"golf",n:"El Golf · Metro Alcántara",h:"08:02",hv:"18:08"},
-  {id:"manquehue",n:"Las Condes · Metro Manquehue",h:"08:10",hv:"18:00"}];
+  {id:"pajaritos",n:"Metro Pajaritos",h:"07:10",hv:"18:50"},
+  {id:"heroes",n:"Alameda · Metro Los Héroes",h:"07:20",hv:"18:40"},
+  {id:"mmontt",n:"Providencia · Metro Manuel Montt",h:"07:35",hv:"18:25"},
+  {id:"costanera",n:"Costanera Center · Metro Tobalaba",h:"07:45",hv:"18:15"},
+  {id:"golf",n:"El Golf · Metro Alcántara",h:"07:52",hv:"18:08"},
+  {id:"manquehue",n:"Las Condes · Metro Manquehue",h:"08:00",hv:"18:00"}];
 // planes según cuántos días a la semana viaja cada persona (precios hipótesis)
 const PLANES={dia:{n:1,d:0,dias:0,l:"Solo este viaje"},f1:{n:4,d:0,dias:1,l:"Flex 1 día/semana · 4 viajes al mes"},
   f2:{n:8,d:.03,dias:2,l:"Flex 2 días/semana · 8 viajes (−3%)"},f3:{n:12,d:.05,dias:3,l:"Flex 3 días/semana · 12 viajes (−5%)"},
@@ -494,7 +492,7 @@ PARADAS_BAJADA.forEach(p=>$("#dest").add(new Option(p.n,p.id)));
 $("#dest").value="costanera";
 const hoy=new Date(); let d=new Date(hoy); d.setDate(d.getDate()+1);
 while(d.getDay()===0||d.getDay()===6) d.setDate(d.getDate()+1);
-$("#fecha").value=d.toISOString().slice(0,10);
+$("#fecha").value=d.toISOString().slice(0,10);$("#fecha").min=new Date().toISOString().slice(0,10);
 
 function addMin(h,m){const[a,b]=h.split(":").map(Number);const t=a*60+b+m;return String(Math.floor(t/60)).padStart(2,"0")+":"+String(t%60).padStart(2,"0")}
 function fechaTxt(){const[y,m,dd]=$("#fecha").value.split("-");return `${dd}-${m}-${y}`}
@@ -510,7 +508,7 @@ function render(){
     const libres=Math.floor(rnd(dt.getDate()*7+i)()*12)+3;
     return `<div class="card">
       <div class="trip">
-        <div><div class="op">Me<span style="color:var(--magenta)">Subo</span> ${i===0?"Madrugador":"Temprano"}</div><small>${b.op}</small></div>
+        <div><div class="op">Me<span style="color:#B02A68">Subo</span> ${i===0?"Madrugador":"Temprano"}</div><small>${b.op}</small></div>
         <div><small>Ida</small><br><b>${sub}</b> → <b>${baj}</b>${tr!=="i"?`<br><small>Vuelta</small><br><b>${vs}</b> → <b>${vb}</b>`:""}</div>
         <div><small>${b.tipo}</small><br><small>${libres<6?"¡Últimos asientos!":libres+" disponibles"}</small></div>
         <div style="text-align:right"><small>Desde</small><div class="price">${clp(PRECIO[tr])}</div><button class="btn" data-i="${i}" onclick="auto=false;openSeats(${i})">ELEGIR ASIENTO</button></div>
@@ -583,7 +581,7 @@ function resumen(){
 function go(n){
   document.querySelectorAll(".panel").forEach((p,i)=>p.classList.toggle("on",i===n-1));
   document.querySelectorAll("#steps div").forEach((s,i)=>{s.className=i<n-1?"done":i===n-1?"on":""});
-  if(n===2)syncDias();
+  if(n===2){syncDias();libsPdf().catch(()=>{})}
   $("#steps").scrollIntoView({behavior:"smooth",block:"start"});
 }
 // demo: siempre se aprueba; los campos vacíos se completan con datos de prueba
@@ -627,7 +625,7 @@ function ticket(){
   <div style="display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start">
     <ul class="tk-cond">
       <li>Llega a tu punto de encuentro 5 minutos antes. El bus espera máximo 2 minutos.</li>
-      <li>Te avisamos por WhatsApp si hay atraso. Si el bus falla, el operador envía un bus de reemplazo o se devuelve el 100%.</li>
+      <li>Te avisamos por WhatsApp si hay atraso. Si el bus falla, el operador envía uno de reemplazo; si no llega, te devolvemos el día y te damos 50% de descuento en el próximo viaje.</li>
       <li>Puedes anular hasta las 20:00 del día anterior desde la app (política por definir; referencia Art. 67 D.S. 212).</li>
       <li>Transporte de pasajeros exento de IVA. El documento tributario lo emite quien preste el servicio (por definir).</li>
       <li>Este e-ticket es una simulación de MeSubo y no constituye pasaje real.</li>
@@ -650,23 +648,28 @@ function ticket(){
   if(window.QRCode){new QRCode($("#qrMini"),{text:qrTxt,width:128,height:128});
     $("#qrBig").innerHTML="";new QRCode($("#qrBig"),{text:qrTxt,width:240,height:240,correctLevel:QRCode.CorrectLevel.M})}
   $("#qrInfo").innerHTML=`<b>${nom}</b> · Asiento <b>${asientos}</b><br>${corto(o.n)} → ${corto(de.n)} · ${fechaTxt()} · ${subida}<br><small>Reserva ${res}</small>`;
-  $("#passBtn").onclick=()=>$("#qrModal").classList.add("on");
+  if(!window.QRCode){$("#qrMini").textContent="QR";$("#qrBig").innerHTML=`<div style="padding:30px;font-weight:800">${res}</div>`}
+  $("#passBtn").onclick=()=>openModal("#qrModal","#qrClose");
   showTab("pase");
   setTimeout(makePdf,300);
 }
 function showTab(v){
-  document.querySelectorAll(".tabs button").forEach(b=>{const on=b.dataset.v===v;b.classList.toggle("on",on);b.setAttribute("aria-selected",on)});
+  document.querySelectorAll(".tabs button").forEach(b=>{const on=b.dataset.v===v;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)});
   $("#pase").style.display=v==="pase"?"":"none";
   $("#ticket").classList.toggle("offstage",v!=="pdf");
 }
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>showTab(b.dataset.v));
-$("#qrClose").onclick=()=>$("#qrModal").classList.remove("on");
+$("#qrClose").onclick=()=>closeModal("#qrModal");
 $("#qrModal").addEventListener("click",e=>{if(e.target.id==="qrModal")$("#qrModal").classList.remove("on")});
-addEventListener("keydown",e=>{if(e.key==="Escape")$("#qrModal").classList.remove("on")});
+
 // PDF real generado en el navegador desde el e-ticket (html2canvas + jsPDF)
 let pdfUrl=null;
+function loadJs(src){return new Promise((ok,ko)=>{const t=document.createElement("script");t.src=src;t.onload=ok;t.onerror=ko;document.head.appendChild(t)})}
+let pdfLibs=null;
+function libsPdf(){return pdfLibs||(pdfLibs=Promise.all([loadJs("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"),loadJs("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js")]))}
 async function makePdf(){
   try{
+    await libsPdf();
     // siempre en formato escritorio (ancho carta), aunque se genere desde el celular
     const cvs=await html2canvas($("#ticket"),{scale:2,backgroundColor:"#ffffff",useCORS:true,windowWidth:1100,
       onclone:d=>{const t=d.getElementById("ticket");t.classList.remove("offstage");t.style.width="860px";t.style.maxWidth="860px";t.style.boxShadow="none"}});
@@ -680,10 +683,13 @@ async function makePdf(){
     $("#pdfEstado").textContent="PDF listo · simulación, sin validez como pasaje.";
   }catch(e){$("#pdfEstado").textContent="No se pudo generar el PDF; usa Cmd/Ctrl+P → Guardar como PDF.";$("#bajarPdf").disabled=false;$("#bajarPdf").onclick=()=>print()}
 }
-$("#verPdf").onclick=()=>{$("#pdfFrame").src=pdfUrl;$("#pdfTab").href=pdfUrl;$("#pdfModal").classList.add("on")};
-$("#pdfClose").onclick=()=>{$("#pdfModal").classList.remove("on")};
+let lastFocus=null;
+function openModal(m,f){lastFocus=document.activeElement;$(m).classList.add("on");setTimeout(()=>$(f).focus(),50)}
+function closeModal(m){$(m).classList.remove("on");if(lastFocus)lastFocus.focus()}
+$("#verPdf").onclick=()=>{$("#pdfFrame").src=pdfUrl;$("#pdfTab").href=pdfUrl;openModal("#pdfModal","#pdfClose")};
+$("#pdfClose").onclick=()=>closeModal("#pdfModal");
 $("#pdfModal").onclick=e=>{if(e.target.id==="pdfModal")$("#pdfModal").classList.remove("on")};
-addEventListener("keydown",e=>{if(e.key==="Escape")$("#pdfModal").classList.remove("on")});
+addEventListener("keydown",e=>{if(e.key==="Escape"){["#pdfModal","#qrModal"].forEach(m=>{if($(m).classList.contains("on"))closeModal(m)})}});
 $("#bajarPdf").onclick=()=>{const a=document.createElement("a");a.href=pdfUrl;a.download=`MeSubo-eticket-${st.res}.pdf`;a.click()};
 render();
 </script>
@@ -707,14 +713,14 @@ const HERO=[["Tu asiento a Santiago,<br>desde un punto cerca de tu casa","Concó
   ["Duerme 2 horas más.<br>Nosotros manejamos.","Wi-Fi, enchufe USB y tu asiento fijo todos los días"]];
 let hi=0,ht;
 function hero(i){hi=i;["#slide1","#slide2"].forEach((s,j)=>$(s).classList.toggle("on",j===i));
-  document.querySelectorAll(".dots button").forEach((d,j)=>d.classList.toggle("on",j===i));
+  document.querySelectorAll(".dots button").forEach((d,j)=>{d.classList.toggle("on",j===i);d.setAttribute("aria-pressed",j===i)});
   $("#heroH").innerHTML=HERO[i][0];$("#heroP").textContent=HERO[i][1];}
 document.querySelectorAll(".dots button").forEach((d,j)=>d.onclick=()=>{hero(j);clearInterval(ht)});
 if(!matchMedia("(prefers-reduced-motion: reduce)").matches)ht=setInterval(()=>hero((hi+1)%2),7000);
 
 // pestañas del buscador
 function tab(t){
-  document.querySelectorAll(".btabs button").forEach(b=>b.classList.toggle("on",b.dataset.tab===t));
+  document.querySelectorAll(".btabs button").forEach(b=>{b.classList.toggle("on",b.dataset.tab===t);b.setAttribute("aria-pressed",b.dataset.tab===t)});
   $("#bCompra").hidden=!["compra","mes"].includes(t);$("#bCambia").hidden=t!=="cambia";$("#bAnula").hidden=t!=="anula";$("#bAero").hidden=t!=="aero";
   $("#bMsg").hidden=true;
   if(t==="mes"){$("#plan").value="f2";$("#tramo").value="iv";render();syncDias();$("#bMsg").hidden=false;$("#bMsg").textContent="📅 Pases flex: viaja 1, 2 o 3 días por semana, o todos los días (−8%). Elige tu asiento y en el paso 2 marcas tus días."}

@@ -29,3 +29,10 @@ Abierto: si MeSubo vende por cuenta del operador o a nombre propio; quién emite
 - Horario estimado: sale 05:20 de Concón, llega 08:10 a Manquehue; regreso 18:00 desde Manquehue, ~20:45 en Concón.
 - Frecuencia variable: hay quien va 1, 2, 3 días o todos. Planes hipótesis: por viaje $20.000 · Flex 1 día (4 viajes) · Flex 2 días (8, −3%) · Flex 3 días (12, −5%) · Mensual (20, −8%).
 - Implicancia: la meta se mide en asientos-día. Con 2,5 días/semana promedio, ~90 clientes activos llenan un bus de 45.
+
+## Reunión "Me Subo estrategia de proveedores" (20-10-2026)
+- Puntos: se decide 6 en la V Región (Concón 2 · Reñaca 1 · Viña 2 · Curauma 1) y 6 en Santiago (Pajaritos, Los Héroes, Manuel Montt, Tobalaba, Alcántara, Manquehue).
+- Proveedor preferido: Flota Verschae (70+ años, talleres propios). Janotour (2 buses) solo como respaldo: sin backup ante fallas. Diego tiene contacto de una empresa de turismo familiar.
+- Método: cotizar costo por día ida y vuelta (21 y 22 oct) → simular con meta de 25 pasajeros → proponer precio preferencial → si no, siguiente proveedor.
+- Fallas: devolver el día al pasajero y dar descuento en el próximo; contrato con cláusulas de respaldo (abogado).
+- Calendario: nov–feb temporada baja; preventa de 20–30 suscriptores; lanzamiento en marzo. Meta/Instagram con Claudia; Paula (RR.PP. Muni Concón) para difusión; Diego con reuniones en grandes empresas.

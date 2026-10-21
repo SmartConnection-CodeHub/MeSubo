@@ -116,7 +116,7 @@
     layers={};
     if(scene!=="santiago")layers.costa=costa();
     if(scene!=="costa")layers.santiago=santiago();
-    cars=[];roads.forEach((rd,ri)=>{for(let i=0;i<(ri?16:30);i++)cars.push(newCar(ri,Math.random()))});
+    cars=[];const k=W<600?.55:1;roads.forEach((rd,ri)=>{for(let i=0;i<Math.round((ri?16:30)*k);i++)cars.push(newCar(ri,Math.random()))});
   }
   function newCar(ri,t){
     const out=Math.random()<.5; // out = se aleja (luces rojas), in = viene (luces blancas)
@@ -159,6 +159,8 @@
   let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>{build();if(reduce)frame()},150)});
   addEventListener("scroll",()=>{boost=Math.min(4,boost+Math.abs(scrollY-lastY)*.01);lastY=scrollY;if(reduce)frame()},{passive:true});
   document.addEventListener("visibilitychange",()=>{run=!document.hidden;if(run&&!reduce)requestAnimationFrame(frame)});
+  // pausa cuando el canvas no se ve (ahorra batería en el simulador)
+  if("IntersectionObserver" in window)new IntersectionObserver(es=>{const v=es[0].isIntersecting;if(v&&!run&&!document.hidden){run=true;if(!reduce)requestAnimationFrame(frame)}else if(!v)run=false}).observe(cv);
   build();
   reduce?frame():requestAnimationFrame(frame);
 })();
