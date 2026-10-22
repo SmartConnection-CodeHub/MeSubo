@@ -55,6 +55,7 @@ th,td{text-align:left;padding:10px 10px;border-bottom:1px solid var(--borde);ver
 th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--gris)}
 .dark th{color:#c9c2e0}.dark td,.dark th{border-color:rgba(255,255,255,.14)}
 .tablewrap{overflow-x:auto}
+.btn.sm{padding:6px 12px;font-size:13px;border:0;cursor:pointer}
 .big{font-size:clamp(30px,4vw,44px);font-weight:800;letter-spacing:-1px;line-height:1.05}
 .agenda li{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.14);display:grid;grid-template-columns:70px 1fr auto;gap:12px;align-items:baseline;list-style:none}
 .agenda{padding:0;margin:0}
@@ -118,7 +119,7 @@ svg text{font-family:Outfit,sans-serif}
     <li><b>5'</b><span>La oportunidad: qué vimos y qué no sabemos todavía</span><span class="tag t-open">Contexto</span></li>
     <li><b>10'</b><span>El modelo: MeSubo (marca, app, clientes, cobro) y un operador de flota con tarifa fija</span><span class="tag t-open">Modelo</span></li>
     <li><b>15'</b><span><b style="color:#fff">Agenda comercial:</b> precio, preventa, captación de los primeros 50 y convenios con empresas</span><span class="tag t-hip">Comercial</span></li>
-    <li><b>15'</b><span><b style="color:#fff">Agenda operacional:</b> los 5 proveedores, qué les pedimos y las cláusulas del contrato</span><span class="tag t-hip">Operación</span></li>
+    <li><b>15'</b><span><b style="color:#fff">Agenda operacional:</b> los 5 proveedores, la primera cotización ($780 mil/día), qué les pedimos y las cláusulas del contrato</span><span class="tag t-hip">Operación</span></li>
     <li><b>10'</b><span>SpA, regulación e impuestos: lo que hay que preguntar a la Seremi, al abogado y al contador</span><span class="tag t-risk">Riesgo</span></li>
     <li><b>5'</b><span>Números con el simulador y reparto de tareas para los próximos 30 días</span><span class="tag t-ok">Decisión</span></li>
   </ul>
@@ -263,6 +264,45 @@ svg text{font-family:Outfit,sans-serif}
   <div class="voice"><b class="who">🧠 Cerebro</b>Ojo con cotizar como si fuera un paseo de fin de año: el precio de un evento puntual es más caro y no sirve para un contrato de 20 días al mes. Además, el que gane va a ser nuestro socio, y partir con una historia que no es real puede costar confianza. Recomiendo pedirlo derecho: <b>"traslado de personal, lunes a viernes, 6 + 6 paradas, contrato mensual"</b>. Así el número que entra al simulador es el real.</div>
 </div></section>
 
+<!-- 7b COTIZACION RECIBIDA -->
+<section id="s7b"><div class="in">
+  <div class="kicker">Cotización recibida · 22-10 · proveedor por confirmar</div>
+  <h2>El primer número real: $780 mil por día,<br>2,6 veces lo que habíamos supuesto</h2>
+  <div class="grid g3">
+    <div class="card"><small>Día normal</small><div class="big">$780.000</div><small>≈ $15,6 M al mes con 20 días. Supuesto anterior: $300 mil</small></div>
+    <div class="card"><small>Día feriado</small><div class="big">$880.000</div><small>No debería aplicar: el servicio es de lunes a viernes hábiles. Hay que dejarlo fuera del contrato.</small></div>
+    <div class="card"><small>Costo por asiento</small><div class="big">$17.333</div><small>con el bus lleno (45). Con la meta de 25 pasajeros sube a $31.200 por persona</small></div>
+  </div>
+  <div class="tablewrap card" style="margin-top:16px"><table>
+    <tr><th>Forma de pago que ofrecen</th><th>Caja que pone MeSubo antes de cobrar</th><th>Lectura</th></tr>
+    <tr><td><b>1 · Contado el primer mes</b></td><td>$15,6 M el día 1</td><td><span class="tag t-risk">La peor</span> Hay que tener todo el mes en la cuenta antes de vender el primer pase.</td></tr>
+    <tr><td><b>2 · 50% el día 1 y 50% el día 15</b></td><td>$7,8 M el día 1 + $7,8 M el día 15</td><td><span class="tag t-hip">Aceptable</span> Funciona si los pases se cobran por adelantado a fin del mes anterior.</td></tr>
+    <tr><td><b>3 · Convenio a 30 días</b> (a evaluar)</td><td>$0: se paga con lo que ya cobramos</td><td><span class="tag t-ok">La que hay que pedir</span> Los clientes prepagan el pase, así que MeSubo trabaja con plata de la venta y no con la propia.</td></tr>
+  </table></div>
+  <h3 style="margin:22px 0 10px">Proyección: precio $20.000 ida y vuelta, 20 días, $1,2 M de gastos fijos y pasarela de 2,9%</h3>
+  <div class="tablewrap card"><table>
+    <tr><th>Escenario</th><th>Costo/día</th><th>Empate</th><th>Con 25 pax (meta)</th><th>Con 35 pax</th><th>Bus lleno (45)</th><th></th></tr>
+    <tr><td><b>Cotización tal cual</b></td><td>$780.000</td><td><b>44 pax</b> (98%)</td><td class="neg">−$7,1 M</td><td class="neg">−$3,2 M</td><td class="pos">+$0,7 M</td><td><button class="btn sm" data-op="780000">Simular</button></td></tr>
+    <tr><td>Negociada a $600 mil</td><td>$600.000</td><td>34 pax (76%)</td><td class="neg">−$3,5 M</td><td class="pos">+$0,4 M</td><td class="pos">+$4,3 M</td><td><button class="btn sm" data-op="600000">Simular</button></td></tr>
+    <tr><td><b>Techo para la meta 25</b></td><td>$425.000</td><td>25 pax (56%)</td><td>≈ $0</td><td class="pos">+$3,9 M</td><td class="pos">+$7,8 M</td><td><button class="btn sm" data-op="425000">Simular</button></td></tr>
+    <tr><td>Supuesto anterior</td><td>$300.000</td><td>19 pax (42%)</td><td class="pos">+$2,5 M</td><td class="pos">+$6,4 M</td><td class="pos">+$10,3 M</td><td><button class="btn sm" data-op="300000">Simular</button></td></tr>
+  </table></div>
+  <p class="foot" style="margin-top:8px">Resultado mensual antes de impuestos. Si no bajan el precio, la otra palanca es el pasaje: con $780 mil hay que cobrar ≈$34.600 ida y vuelta para empatar con 25 pasajeros, que es más que el bus pirata ($20.000).</p>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h3>Qué preguntarle antes de contraofertar</h3>
+      1 · ¿El valor incluye el bus esperando todo el día en Santiago? Probablemente sí, y es la mayor parte del costo.<br>
+      2 · ¿Cuánto cobra por <b>dos traslados separados</b> (ida 05:20 y vuelta 18:00), dejando el bus libre a mediodía para otros servicios?<br>
+      3 · ¿Qué precio da por contrato de 6 y 12 meses?<br>
+      4 · ¿Incluye peajes, conductor de reemplazo y bus de respaldo?<br>
+      5 · Que la cotización formal llegue por correo con el desglose y el certificado RNSTP.</div>
+    <div class="card"><h3>Contraoferta propuesta</h3>
+      <b>Objetivo: ≤ $425.000 por día</b>, que es lo máximo que aguanta la meta de 25 pasajeros a $20.000.<br><br>
+      <b>Lo que ofrecemos a cambio:</b> contrato de 12 meses, 20 días seguros al mes y el bus libre entre las 08:00 y las 18:00 para que lo use en otros servicios.<br><br>
+      <b>Pago:</b> convenio a 30 días. Si no lo aceptan, opción 2 (50/50).</div>
+  </div>
+  <div class="voice"><b class="who">🧠 Cerebro</b>No es un mal precio para un bus parado 10 horas en Santiago; el problema es que estamos pagando el día completo por 5 horas de uso. No hay que rechazar ni aceptar todavía. Primero hay que <b>comparar con las otras 4 cotizaciones</b>, y con este número ya sabemos que la pregunta clave para todos es cuánto cuesta la ida y la vuelta por separado. Si nadie baja de $600 mil, el plan cambia: menos paradas, un bus más chico o un precio de $25.000 o más con oferta para empresas.</div>
+</div></section>
+
 <!-- 8 REGULACION / SPA -->
 <section class="dark" id="s8"><div class="in">
   <div class="kicker">SpA · regulación · impuestos</div>
@@ -293,10 +333,10 @@ svg text{font-family:Outfit,sans-serif}
       <input type="hidden" id="pax" value="40"><p style="margin:-4px 0 14px;font-size:14px">⇒ <b id="vPax"></b> pasajeros por día (máx. 45 por bus)</p>
       <div class="ctl"><label for="pre">Precio ida y vuelta <b id="vPre"></b></label><input type="range" id="pre" min="12000" max="30000" step="500" value="20000"></div>
       <div class="ctl"><label for="dia">Días vendidos al mes <b id="vDia"></b></label><input type="range" id="dia" min="15" max="22" value="20"></div>
-      <div class="ctl"><label for="op">Costo del operador por día, ida y vuelta ≈ <b id="vOp"></b></label><input type="range" id="op" min="150000" max="600000" step="10000" value="300000"></div>
+      <div class="ctl"><label for="op">Costo del operador por día, ida y vuelta ≈ <b id="vOp"></b></label><input type="range" id="op" min="150000" max="900000" step="5000" value="300000"></div>
       <div class="ctl"><label for="pg">Pasarela de pago % <b id="vPg"></b></label><input type="range" id="pg" min="0.7" max="3.5" step="0.1" value="2.9"></div>
       <div class="ctl"><label for="fx">App, atención y marketing al mes ≈ <b id="vFx"></b></label><input type="range" id="fx" min="300000" max="3000000" step="50000" value="1200000"></div>
-      <p class="foot">⚠ Supuestos: el costo del operador se estimó en ≈$300 mil por día (ida y vuelta, bus de 45 asientos con conductor, diésel y peajes de la Ruta 68) mientras llegan las cotizaciones del 21 y 22 de octubre. Diésel ≈$1.530/L y peaje de bus 2 ejes $4.800 por pasada (RADAR). Ese número se reemplaza por el real.</p>
+      <p class="foot">✅ 22-10: llegó la primera cotización real, $780 mil por día (ver sección anterior). Usa los botones "Simular" para cargarla.<br>⚠ Supuestos: el costo del operador se estimó en ≈$300 mil por día (ida y vuelta, bus de 45 asientos con conductor, diésel y peajes de la Ruta 68) mientras llegan las cotizaciones del 21 y 22 de octubre. Diésel ≈$1.530/L y peaje de bus 2 ejes $4.800 por pasada (RADAR). Ese número se reemplaza por el real.</p>
     </div>
     <div>
       <div class="kpi">
@@ -410,7 +450,8 @@ function draw(pe){
   if(pe<=45){const px=(pe-5)*bw;x.strokeStyle="#F5872A";x.setLineDash([4,4]);x.beginPath();x.moveTo(px,0);x.lineTo(px,h);x.stroke();x.setLineDash([]);x.fillStyle="#F5872A";x.font="12px Outfit";x.fillText("empate "+pe,px+4,14)}
   const mx25=(25-5)*bw;x.strokeStyle="#D9468A";x.setLineDash([2,3]);x.beginPath();x.moveTo(mx25,0);x.lineTo(mx25,h);x.stroke();x.setLineDash([]);x.fillStyle="#D9468A";x.fillText("meta 25",mx25+4,28);
 }
-["cli","frq","pre","dia","op","pg","fx"].forEach(i=>$(i).addEventListener("input",upd));addEventListener("resize",upd);upd();
+["cli","frq","pre","dia","op","pg","fx"].forEach(i=>$(i).addEventListener("input",upd));
+document.querySelectorAll("[data-op]").forEach(b=>b.addEventListener("click",()=>{$("op").value=b.dataset.op;upd();$("s9").scrollIntoView({behavior:"smooth"})}));addEventListener("resize",upd);upd();
 </script>
 <script src="road.js" defer></script>
 </body>

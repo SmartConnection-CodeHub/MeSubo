@@ -36,3 +36,9 @@ Abierto: si MeSubo vende por cuenta del operador o a nombre propio; quién emite
 - Método: cotizar costo por día ida y vuelta (21 y 22 oct) → simular con meta de 25 pasajeros → proponer precio preferencial → si no, siguiente proveedor.
 - Fallas: devolver el día al pasajero y dar descuento en el próximo; contrato con cláusulas de respaldo (abogado).
 - Calendario: nov–feb temporada baja; preventa de 20–30 suscriptores; lanzamiento en marzo. Meta/Instagram con Claudia; Paula (RR.PP. Muni Concón) para difusión; Diego con reuniones en grandes empresas.
+
+## Cotización recibida · 22-10-2026 (proveedor por confirmar)
+- Día normal $780.000 · día feriado $880.000 (2,6× el supuesto de $300 mil).
+- Pago: (1) contado primer mes, (2) 50% día 1 + 50% día 15, (3) convenio a 30 días a evaluar.
+- Proyección a $20.000 ida y vuelta, 20 días, $1,2 M fijos, pasarela 2,9%: empate 44 pax/día; con 25 pax −$7,1 M/mes; bus lleno +$0,7 M.
+- Techo de costo para la meta 25: ≈$425.000/día. Contraoferta: 12 meses, bus libre 08:00–18:00, convenio 30 días. Preguntar precio por ida y vuelta separadas.
