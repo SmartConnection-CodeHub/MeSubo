@@ -74,6 +74,7 @@ th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--gris
 .topnav .demo{pointer-events:auto;font-size:14px;padding:8px 14px}
 /* sim */
 .sim{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid>*,.sim>*,.kpi>*{min-width:0}
 .ctl{margin-bottom:14px}
 .ctl label{display:flex;justify-content:space-between;font-size:14px;font-weight:600}
 .ctl input[type=range]{width:100%;accent-color:var(--magenta)}
@@ -119,7 +120,7 @@ svg text{font-family:Outfit,sans-serif}
     <li><b>5'</b><span>La oportunidad: qué vimos y qué no sabemos todavía</span><span class="tag t-open">Contexto</span></li>
     <li><b>10'</b><span>El modelo: MeSubo (marca, app, clientes, cobro) y un operador de flota con tarifa fija</span><span class="tag t-open">Modelo</span></li>
     <li><b>15'</b><span><b style="color:#fff">Agenda comercial:</b> precio, preventa, captación de los primeros 50 y convenios con empresas</span><span class="tag t-hip">Comercial</span></li>
-    <li><b>15'</b><span><b style="color:#fff">Agenda operacional:</b> los 5 proveedores, las cotizaciones de Jonatour ($780 mil/día y luego $8 M al mes), qué les pedimos y las cláusulas del contrato</span><span class="tag t-hip">Operación</span></li>
+    <li><b>15'</b><span><b style="color:#fff">Agenda operacional:</b> los 5 proveedores, las cotizaciones de JanoTour ($8 M de canon al mes, ≈ $12,2 M con petróleo y conductor), qué les pedimos y las cláusulas del contrato</span><span class="tag t-hip">Operación</span></li>
     <li><b>10'</b><span>SpA, regulación e impuestos: lo que hay que preguntar a la Seremi, al abogado y al contador</span><span class="tag t-risk">Riesgo</span></li>
     <li><b>5'</b><span>Números con el simulador y reparto de tareas para los próximos 30 días</span><span class="tag t-ok">Decisión</span></li>
   </ul>
@@ -255,7 +256,7 @@ svg text{font-family:Outfit,sans-serif}
     <tr><td>3</td><td><b>TurisViña</b></td><td>Base en Reñaca, transporte corporativo, bus de 46 pasajeros y vans.</td><td><span class="tag t-hip">Medio</span></td><td>Cotizando</td></tr>
     <tr><td>4</td><td><b>Pullman</b></td><td>Interurbano grande. Hay que confirmar si arrienda vía Pullman Tur.</td><td><span class="tag t-ok">Alto</span></td><td>Cotizando</td></tr>
     <tr><td>5</td><td><b>Contacto de Diego</b></td><td>Empresa familiar de turismo con buses (de una amiga de Diego).</td><td><span class="tag t-open">?</span></td><td>Por contactar</td></tr>
-    <tr><td>6</td><td><b>Jonatour</b></td><td>Tiene 2 buses. Si uno falla no hay reemplazo y volvemos a ser "el pirata".</td><td><span class="tag t-risk">Bajo</span></td><td><b>Cotizó: $8 M al mes</b> (ver abajo) · mejor precio hasta ahora</td></tr>
+    <tr><td>6</td><td><b>JanoTour</b></td><td>Tiene 2 buses. Si uno falla no hay reemplazo y volvemos a ser "el pirata".</td><td><span class="tag t-risk">Bajo</span></td><td><b>Cotizó: $8 M + petróleo</b> (≈ $12,2 M real, ver abajo)</td></tr>
   </table></div>
   <div class="grid g2" style="margin-top:16px">
     <div class="card"><h3>Quién pone qué</h3><b>MeSubo SpA:</b> marca, app, reservas, cartera de clientes, cobro y atención.<br><b>Operador:</b> bus, conductor y combustible.<br><br>Al operador le interesa la plata fija en la cuenta; a nosotros, que no falle. El contrato con el abogado tiene que amarrar eso: <b>bus de reemplazo, multas por atraso y aviso previo</b>.</div>
@@ -266,14 +267,35 @@ svg text{font-family:Outfit,sans-serif}
 
 <!-- 7b COTIZACION RECIBIDA -->
 <section id="s7b"><div class="in">
-  <div class="kicker">Cotización Jonatour · 22-10 y 23-10</div>
-  <h2>Jonatour pasó de $15,6 M a $8 M al mes:<br>≈ $400 mil por día, bajo el techo de $425 mil</h2>
-  <h3 style="margin:0 0 10px">Propuesta mensual (23-10)</h3>
+  <div class="kicker">Cotización JanoTour · COT-INT-2026-114 · 23-10 · vigente 15 días (hasta el 07-11)</div>
+  <h2>JanoTour cobra $8 M al mes, pero con petróleo,<br>conductor y estacionamiento el costo real es ≈ $12,2 M</h2>
+  <h3 style="margin:0 0 10px">Lo que dice la cotización formal</h3>
   <div class="grid g3">
-    <div class="card"><small>Vueltas Santiago ↔ Viña</small><div class="big">$2,4 M</div><small>$600.000 por vuelta × 4 al mes</small></div>
-    <div class="card"><small>Bus el mes en Viña</small><div class="big">$5,6 M</div><small>El bus queda basado en la costa todo el mes</small></div>
-    <div class="card"><small>Total bus al mes</small><div class="big">$8,0 M</div><small>≈ $400.000 por día hábil (20 días). Es 49% menos que la primera versión. Costo por asiento: $8.889 con el bus lleno, $16.000 con 25 pasajeros</small></div>
+    <div class="card"><small>01 · Operación mensual base Viña</small><div class="big">$5,6 M</div><small>Bus exclusivo con conductor, lunes a viernes hábiles (20 a 22 días), ida y regreso el mismo día</small></div>
+    <div class="card"><small>02 · "Siga Viña": 4 rotaciones</small><div class="big">$2,4 M</div><small>1 vuelta por semana a taller para revisión mecánica y relevo preventivo, a $600.000 cada una</small></div>
+    <div class="card"><small>Canon mensual</small><div class="big">$8,0 M</div><small>Facturación mensual por adelantado. Bus Pullman de <b>42 asientos</b> (no 45)</small></div>
   </div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h3>✓ Incluye</h3>Bus habilitado por el MTT · bus de repuesto ante fallas · conductor con sueldo e imposiciones · SOAP, seguro de pasajeros y mantención · peajes y TAG del recorrido.</div>
+    <div class="card"><h3>✗ Lo paga MeSubo</h3><b>Petróleo</b> según consumo · <b>alojamiento del conductor en Santiago</b> (descansa ahí entre las 08:00 y las 18:00) · <b>comidas del conductor</b> · horas extra y desvíos.</div>
+  </div>
+  <h3 style="margin:22px 0 10px">Costo real al mes: lo que no está en el canon</h3>
+  <div class="tablewrap card"><table>
+    <tr><th>Ítem</th><th>Cálculo</th><th>20 días</th><th>22 días</th></tr>
+    <tr><td><b>Canon JanoTour</b></td><td>Fijo por mes</td><td>$8.000.000</td><td>$8.000.000</td></tr>
+    <tr><td><b>Petróleo</b></td><td>≈ 330 km por día (150 km por tramo + traslados a estacionamiento) × 33 L/100 km = 109 L × $1.558/L</td><td>$3.400.000</td><td>$3.740.000</td></tr>
+    <tr><td><b>Hostal + comidas del conductor</b></td><td>Pieza para descansar en Santiago ($150–300 mil) + almuerzo y once ($6–8 mil c/u)</td><td>$550.000</td><td>$600.000</td></tr>
+    <tr><td><b>Estacionamiento del bus en Santiago</b></td><td>Espacio en un patio de buses de 08:00 a 18:00 (ver abajo)</td><td>≈ $200.000</td><td>≈ $200.000</td></tr>
+    <tr><td><b>Total operador</b></td><td></td><td><b>$12.150.000</b><br><small>≈ $607.500 por día</small></td><td><b>$12.540.000</b><br><small>≈ $570.000 por día</small></td></tr>
+  </table></div>
+  <p class="foot" style="margin-top:8px">Petróleo: promedio estimado en la Región Metropolitana desde el 22-10-2026, tras la quinta alza seguida (Pauta / ENAP). Un bus Pullman gasta entre 28 y 38 L cada 100 km, lo que deja el petróleo entre $2,9 M y $3,9 M al mes con 20 días. Si la empresa es exenta de IVA (transporte de pasajeros), el IVA del petróleo es costo y no se recupera. Hay que preguntar si el petróleo de las 4 rotaciones a taller también es de cargo nuestro: si lo es, suma ≈ $0,5 M más.</p>
+  <h3 style="margin:22px 0 10px">Dónde dejar el bus en Santiago (08:00 a 18:00)</h3>
+  <div class="grid g3">
+    <div class="card"><small>Opción 1 · la más concreta</small><h3>Av. Nueva Bilbao 9495, Las Condes</h3>Terreno de 990 m² de la Junta de Alcaldes (Providencia, Las Condes, La Reina) que ya se arrienda como estacionamiento de buses intercomunales, a <b>8,52 UF al mes (≈ $340 mil)</b> por todo el terreno. Queda a unos 6 km de la parada Manquehue. Se puede pedir un espacio a la Junta o al arrendatario actual.</div>
+    <div class="card"><small>Opción 2</small><h3>Patio de buses o camiones</h3>Hay avisos de terrenos cerrados con cámaras para buses en Maipú, Quilicura y Huechuraba. Un espacio para un bus (≈ 40 m²) cuesta entre <b>$100 y $200 mil al mes</b>. Queda más lejos del recorrido: suma kilómetros y petróleo.</div>
+    <div class="card"><small>Opción 3 · la más barata</small><h3>La base de JanoTour</h3>Preguntar si JanoTour tiene patio o convenio en Santiago. Si el bus se queda ahí, nos ahorramos el estacionamiento y quizás el hostal, porque el conductor descansa en su base.</div>
+  </div>
+  <p class="foot" style="margin-top:8px">Un estacionamiento normal de autos no sirve: el bus mide unos 13 m de largo y 3,8 m de alto. En la costa el bus duerme en la base de JanoTour en Viña ("operación base Viña"). Hay que confirmar a qué distancia queda de Concón, porque la primera salida es a las 05:20.</p>
   <h3 style="margin:22px 0 10px">Primera versión (22-10): precio por día</h3>
   <div class="grid g3">
     <div class="card"><small>Día normal</small><div class="big">$780.000</div><small>≈ $15,6 M al mes con 20 días. Supuesto anterior: $300 mil</small></div>
@@ -281,7 +303,7 @@ svg text{font-family:Outfit,sans-serif}
     <div class="card"><small>Costo por asiento</small><div class="big">$17.333</div><small>con el bus lleno (45). Con la meta de 25 pasajeros sube a $31.200 por persona</small></div>
   </div>
   <div class="tablewrap card" style="margin-top:16px"><table>
-    <tr><th>Forma de pago que ofrecen</th><th>Caja antes de cobrar · con $8 M al mes (antes $15,6 M)</th><th>Lectura</th></tr>
+    <tr><th>Forma de pago que ofrecen</th><th>Caja antes de cobrar · canon de $8 M (más el petróleo, que se paga a medida que se carga)</th><th>Lectura</th></tr>
     <tr><td><b>1 · Contado el primer mes</b></td><td>$8 M el día 1 (antes $15,6 M)</td><td><span class="tag t-risk">La peor</span> Hay que tener todo el mes en la cuenta antes de vender el primer pase.</td></tr>
     <tr><td><b>2 · 50% el día 1 y 50% el día 15</b></td><td>$4 M el día 1 + $4 M el día 15</td><td><span class="tag t-hip">Aceptable</span> Funciona si los pases se cobran por adelantado a fin del mes anterior.</td></tr>
     <tr><td><b>3 · Convenio a 30 días</b> (a evaluar)</td><td>$0: se paga con lo que ya cobramos</td><td><span class="tag t-ok">La que hay que pedir</span> Los clientes prepagan el pase, así que MeSubo trabaja con plata de la venta y no con la propia.</td></tr>
@@ -289,26 +311,29 @@ svg text{font-family:Outfit,sans-serif}
   <h3 style="margin:22px 0 10px">Proyección: precio $20.000 ida y vuelta, 20 días, $1,2 M de gastos fijos y pasarela de 2,9%</h3>
   <div class="tablewrap card"><table>
     <tr><th>Escenario</th><th>Costo/día</th><th>Empate</th><th>Con 25 pax (meta)</th><th>Con 35 pax</th><th>Bus lleno (45)</th><th></th></tr>
-    <tr><td><b>Jonatour · propuesta mensual</b></td><td>$400.000</td><td><b>24 pax</b> (53%)</td><td class="pos">+$0,5 M</td><td class="pos">+$4,4 M</td><td class="pos">+$8,3 M</td><td><button class="btn sm" data-op="400000">Simular</button></td></tr>
-    <tr><td>Jonatour · primera versión</td><td>$780.000</td><td>44 pax (98%)</td><td class="neg">−$7,1 M</td><td class="neg">−$3,2 M</td><td class="pos">+$0,7 M</td><td><button class="btn sm" data-op="780000">Simular</button></td></tr>
+    <tr><td><b>JanoTour · costo real</b> (canon + petróleo + conductor + estacionamiento)</td><td>≈ $610.000</td><td><b>35 pax</b> (83% de 42)</td><td class="neg">−$3,6 M</td><td class="pos">+$0,2 M</td><td class="pos">+$3,0 M (42)</td><td><button class="btn sm" data-op="610000">Simular</button></td></tr>
+    <tr><td>JanoTour · solo el canon</td><td>$400.000</td><td>24 pax (57%)</td><td class="pos">+$0,5 M</td><td class="pos">+$4,4 M</td><td class="pos">+$7,1 M (42)</td><td><button class="btn sm" data-op="400000">Simular</button></td></tr>
+    <tr><td>JanoTour · primera versión</td><td>$780.000</td><td>44 pax (98%)</td><td class="neg">−$7,1 M</td><td class="neg">−$3,2 M</td><td class="pos">+$0,7 M</td><td><button class="btn sm" data-op="780000">Simular</button></td></tr>
     <tr><td>Negociada a $600 mil</td><td>$600.000</td><td>34 pax (76%)</td><td class="neg">−$3,5 M</td><td class="pos">+$0,4 M</td><td class="pos">+$4,3 M</td><td><button class="btn sm" data-op="600000">Simular</button></td></tr>
     <tr><td><b>Techo para la meta 25</b></td><td>$425.000</td><td>25 pax (56%)</td><td>≈ $0</td><td class="pos">+$3,9 M</td><td class="pos">+$7,8 M</td><td><button class="btn sm" data-op="425000">Simular</button></td></tr>
     <tr><td>Supuesto anterior</td><td>$300.000</td><td>19 pax (42%)</td><td class="pos">+$2,5 M</td><td class="pos">+$6,4 M</td><td class="pos">+$10,3 M</td><td><button class="btn sm" data-op="300000">Simular</button></td></tr>
   </table></div>
-  <p class="foot" style="margin-top:8px">Resultado mensual antes de impuestos. Supuesto: los $8 M cubren los 20 días hábiles ida y vuelta con las 6 + 6 paradas (hay que confirmarlo). Con ese valor la meta de 25 pasajeros ya deja margen a $20.000; con la primera versión había que cobrar ≈$34.600 para empatar.</p>
+  <p class="foot" style="margin-top:8px">Resultado mensual antes de impuestos, con 20 días. Con el costo real, para empatar con la meta de 25 pasajeros el pasaje tiene que ser de ≈ <b>$27.500 ida y vuelta</b>. Con $25.000, el empate baja a 28 pasajeros. Ojo: el bus de JanoTour tiene 42 asientos, así que la columna "bus lleno" es con 42.</p>
   <div class="grid g2" style="margin-top:16px">
     <div class="card"><h3>Qué preguntarle antes de contraofertar</h3>
-      1 · ¿Qué son exactamente las <b>4 vueltas de $600 mil</b>? ¿Una por semana para llevar el bus a Santiago (mantención, cambio de conductor)?<br>
-      2 · ¿Los $8 M cubren <b>los 20 días hábiles</b>, ida 05:20 y vuelta 18:00, con las 6 + 6 paradas? ¿Qué pasa si un mes tiene 22 días?<br>
-      3 · Tiene 2 buses: <b>si falla uno, ¿quién lo reemplaza y en cuánto tiempo?</b><br>
-      4 · ¿Incluye peajes, conductor de reemplazo y dónde duerme el bus en la costa?<br>
-      5 · ¿Mantiene el valor con contrato de 6 y 12 meses? Que la cotización formal llegue por correo con el desglose y el certificado RNSTP.</div>
+      ✅ Ya respondido en el PDF: los $8 M cubren todos los días hábiles, incluyen peajes, seguros y bus de repuesto, y las 4 vueltas son rotaciones a taller.<br><br>
+      1 · ¿Cuánto cobran <b>con el petróleo incluido</b>? Como flota compran más barato que nosotros en la bomba.<br>
+      2 · ¿El petróleo de las 4 rotaciones a taller es de nuestro cargo?<br>
+      3 · ¿Tienen patio en Santiago donde el bus y el conductor esperen entre las 08:00 y las 18:00?<br>
+      4 · ¿Dónde queda la base en Viña y cuánto se demora el bus en llegar a Concón para salir a las 05:20?<br>
+      5 · El conductor está de 05:00 a 20:30. ¿Cumple el Código del Trabajo (art. 25, conductores interurbanos) o hacen falta dos conductores?<br>
+      6 · Tienen 2 buses: ¿el de repuesto es propio y está disponible para nosotros? ¿Mantienen el valor con contrato de 6 y 12 meses?</div>
     <div class="card"><h3>Contraoferta propuesta</h3>
-      <b>El precio ya está bajo el techo ($425 mil por día).</b> Ahora no hay que pelear el precio, sino asegurar las condiciones.<br><br>
-      <b>Lo que pedimos:</b> mismo valor por 6 a 12 meses, bus de reemplazo garantizado por contrato (propio o subcontratado) y multa si no llega.<br><br>
-      <b>Pago:</b> convenio a 30 días. Si no lo aceptan, opción 2 (50/50: $4 M + $4 M).</div>
+      <b>Objetivo: todo incluido (petróleo, conductor y espera en Santiago) por ≤ $9,5 M al mes.</b> Con eso, a $20.000 empatamos con ≈ 28 pasajeros. Si no baja, el pasaje tiene que partir en $25.000.<br><br>
+      <b>Lo que ofrecemos a cambio:</b> contrato de 12 meses, 20 a 22 días seguros al mes y el bus libre al mediodía si lo quieren usar en otro servicio (eso reemplaza el hostal y el estacionamiento).<br><br>
+      <b>Pago:</b> convenio a 30 días. Si no lo aceptan, 50/50 ($4 M + $4 M). Además pedimos bus de reemplazo garantizado por contrato y una multa si no llega.</div>
   </div>
-  <div class="voice"><b class="who">🧠 Cerebro</b>Ojo: el mejor precio viene del proveedor con menos respaldo. Jonatour estaba en la lista <b>solo como respaldo</b> porque tiene 2 buses, y un bus que no llega un lunes a las 05:20 nos vuelve a convertir en "el pirata". Recomiendo usar estos $8 M como <b>piso para negociar con Verschae y Núñez</b>: si alguno se acerca a ese valor con talleres y flota propia, conviene más aunque cueste un poco más. Si nos quedamos con Jonatour, el contrato tiene que obligarlo a tener el segundo bus disponible para nosotros o un reemplazo subcontratado.</div>
+  <div class="voice"><b class="who">🧠 Cerebro</b>El canon se ve barato porque deja afuera casi un tercio del costo: el petróleo solo suma $3,4 M. Comparado como corresponde, JanoTour cuesta ≈ $610 mil por día, no $400 mil. Otra cosa: el mejor precio viene del proveedor con menos respaldo. JanoTour estaba en la lista <b>solo como respaldo</b> porque tiene 2 buses, y un bus que no llega un lunes a las 05:20 nos vuelve a convertir en "el pirata". Recomiendo usar estos $8 M como <b>piso para negociar con Verschae y Núñez</b>: si alguno se acerca a ese valor con talleres y flota propia, conviene más aunque cueste un poco más. Si nos quedamos con JanoTour, el contrato tiene que obligarlo a tener el segundo bus disponible para nosotros o un reemplazo subcontratado.</div>
 </div></section>
 
 <!-- 8 REGULACION / SPA -->
@@ -344,7 +369,7 @@ svg text{font-family:Outfit,sans-serif}
       <div class="ctl"><label for="op">Costo del operador por día, ida y vuelta ≈ <b id="vOp"></b></label><input type="range" id="op" min="150000" max="900000" step="5000" value="300000"></div>
       <div class="ctl"><label for="pg">Pasarela de pago % <b id="vPg"></b></label><input type="range" id="pg" min="0.7" max="3.5" step="0.1" value="2.9"></div>
       <div class="ctl"><label for="fx">App, atención y marketing al mes ≈ <b id="vFx"></b></label><input type="range" id="fx" min="300000" max="3000000" step="50000" value="1200000"></div>
-      <p class="foot">✅ 23-10: Jonatour cotizó $8 M al mes (≈$400 mil por día; la primera versión era $780 mil por día). Ver sección anterior. Usa los botones "Simular" para cargarla.<br>⚠ Supuestos: el costo del operador se estimó en ≈$300 mil por día (ida y vuelta, bus de 45 asientos con conductor, diésel y peajes de la Ruta 68) mientras llegan las cotizaciones del 21 y 22 de octubre. Diésel ≈$1.530/L y peaje de bus 2 ejes $4.800 por pasada (RADAR). Ese número se reemplaza por el real.</p>
+      <p class="foot">✅ 23-10: JanoTour cotizó $8 M al mes (≈$400 mil por día; la primera versión era $780 mil por día). Sin petróleo, conductor ni estacionamiento: con todo, el costo real es ≈ $610 mil por día. Ver sección anterior. Usa los botones "Simular" para cargarla.<br>⚠ Supuestos: el costo del operador se estimó en ≈$300 mil por día (ida y vuelta, bus de 45 asientos con conductor, diésel y peajes de la Ruta 68) mientras llegan las cotizaciones del 21 y 22 de octubre. Diésel ≈$1.530/L y peaje de bus 2 ejes $4.800 por pasada (RADAR). Ese número se reemplaza por el real.</p>
     </div>
     <div>
       <div class="kpi">

@@ -43,9 +43,17 @@ Abierto: si MeSubo vende por cuenta del operador o a nombre propio; quién emite
 - Proyección a $20.000 ida y vuelta, 20 días, $1,2 M fijos, pasarela 2,9%: empate 44 pax/día; con 25 pax −$7,1 M/mes; bus lleno +$0,7 M.
 - Techo de costo para la meta 25: ≈$425.000/día. Contraoferta: 12 meses, bus libre 08:00–18:00, convenio 30 días. Preguntar precio por ida y vuelta separadas.
 
-## Cotización Jonatour · actualización 23-10-2026
-- La cotización de $780.000/día (22-10) era de **Jonatour** (2 buses, estaba en la lista solo como respaldo).
+## Cotización JanoTour · actualización 23-10-2026
+- La cotización de $780.000/día (22-10) era de **JanoTour** (2 buses, estaba en la lista solo como respaldo).
 - Nueva propuesta mensual: vueltas Santiago↔Viña $600.000 × 4 = $2,4 M + bus el mes en Viña $5,6 M = **$8,0 M al mes** (≈ $400.000 por día hábil con 20 días, −49 %).
 - Proyección ($20.000, 20 días, fijos $1,2 M, pasarela 2,9 %): empate 24 pax · 25 pax +$0,5 M · 35 pax +$4,4 M · 45 pax +$8,3 M.
 - Por confirmar: qué son las 4 vueltas, si los $8 M cubren los 20 días ida y vuelta 6+6 paradas, bus de reemplazo, peajes, contrato 6-12 meses, RNSTP.
-- Recomendación: usar $8 M como piso para negociar con Verschae y Núñez (más respaldo); si se elige Jonatour, amarrar por contrato el bus de reemplazo.
+- Recomendación: usar $8 M como piso para negociar con Verschae y Núñez (más respaldo); si se elige JanoTour, amarrar por contrato el bus de reemplazo.
+
+## JanoTour · cotización formal COT-INT-2026-114 (23-10-2026, vigente hasta 07-11)
+- Nombre correcto: **JanoTour**. Bus Pullman **42 asientos**. Canon $8 M/mes = operación base Viña $5,6 M + 4 rotaciones "Siga Viña" a taller ($600 mil c/u, 1/semana). Cubre todos los días hábiles (20-22).
+- Incluye: MTT, bus de repuesto, conductor con imposiciones, SOAP/seguro pasajeros/mantención, peajes y TAG. Excluye: petróleo, alojamiento y comidas del conductor en Santiago, horas extra/desvíos. Facturación mensual por adelantado.
+- Costo real estimado (20 días): canon $8,0 M + petróleo $3,4 M (330 km/día × 33 L/100 km × $1.558/L, RM 22-10, Pauta/ENAP) + hostal y comidas $0,55 M + estacionamiento Santiago ≈ $0,2 M = **$12,15 M ≈ $607 mil/día**.
+- Proyección a $20.000: empate 35 pax (de 42) · 25 pax −$3,6 M · 35 pax +$0,2 M · 42 pax +$3,0 M. Empatar con 25 exige pasaje ≈ $27.500; con $25.000 empate 28.
+- Estacionamiento Santiago: Av. Nueva Bilbao 9495, Las Condes (Junta de Alcaldes, 990 m², 8,52 UF/mes por terreno, arrendado a buses intercomunales) · patios de buses Maipú/Quilicura/Huechuraba $100-200 mil por espacio · o la base de JanoTour. En Curauma hay estacionamiento de camiones (aviso Instagram).
+- Contraoferta: todo incluido ≤ $9,5 M/mes (empate ≈ 28 pax a $20.000).
