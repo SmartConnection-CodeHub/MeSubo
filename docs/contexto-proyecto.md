@@ -42,3 +42,10 @@ Abierto: si MeSubo vende por cuenta del operador o a nombre propio; quién emite
 - Pago: (1) contado primer mes, (2) 50% día 1 + 50% día 15, (3) convenio a 30 días a evaluar.
 - Proyección a $20.000 ida y vuelta, 20 días, $1,2 M fijos, pasarela 2,9%: empate 44 pax/día; con 25 pax −$7,1 M/mes; bus lleno +$0,7 M.
 - Techo de costo para la meta 25: ≈$425.000/día. Contraoferta: 12 meses, bus libre 08:00–18:00, convenio 30 días. Preguntar precio por ida y vuelta separadas.
+
+## Cotización Jonatour · actualización 23-10-2026
+- La cotización de $780.000/día (22-10) era de **Jonatour** (2 buses, estaba en la lista solo como respaldo).
+- Nueva propuesta mensual: vueltas Santiago↔Viña $600.000 × 4 = $2,4 M + bus el mes en Viña $5,6 M = **$8,0 M al mes** (≈ $400.000 por día hábil con 20 días, −49 %).
+- Proyección ($20.000, 20 días, fijos $1,2 M, pasarela 2,9 %): empate 24 pax · 25 pax +$0,5 M · 35 pax +$4,4 M · 45 pax +$8,3 M.
+- Por confirmar: qué son las 4 vueltas, si los $8 M cubren los 20 días ida y vuelta 6+6 paradas, bus de reemplazo, peajes, contrato 6-12 meses, RNSTP.
+- Recomendación: usar $8 M como piso para negociar con Verschae y Núñez (más respaldo); si se elige Jonatour, amarrar por contrato el bus de reemplazo.
